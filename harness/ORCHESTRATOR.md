@@ -21,6 +21,20 @@ Source Pack은 가치투자 리서치 21단계 중 Phase 2 Step 3의 원자료 �
 | 부분 재검토 | 특정 섹션만 요청 | 해당 섹션 갱신 및 QA |
 | 비교 모드 | Claude/Codex 비교 요청 | 동일 입력 기준 결과 비교 |
 
+## 비교 모드 원칙
+
+비교 모드의 기본값은 `입력 공유`다.
+같은 사용자 요청, 같은 `watchlist.md`, 같은 `config.md`, 같은 기존 `index.md`를 Claude와 Codex가 함께 읽어야 모델 차이를 해석할 수 있다.
+
+| 방식 | 사용 상황 | 비교 범위 |
+|---|---|---|
+| 입력 공유 | 기본값. 모델 차이만 보고 싶을 때 | 같은 입력을 기준으로 수집, 정리, QA 품질 비교 |
+| 각자 생성 | 입력 해석 차이까지 보고 싶을 때 | 티커 해석, 설정 요약, 수집 판단까지 포함한 전체 실행 차이 비교 |
+
+비교 모드에서는 기존 회사별 누적 `index.md`를 바로 덮어쓰지 않는다.
+각 실행 결과를 `artifacts/run-YYYYMMDD-source-pack-{ticker}-claude/`와 `artifacts/run-YYYYMMDD-source-pack-{ticker}-codex/`에 분리 저장한 뒤 비교 리포트를 작성한다.
+누적 `index.md` 반영은 사용자 승인 후에만 진행한다.
+
 ## 입력
 
 - `watchlist.md`: 관심 종목 티커 목록

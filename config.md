@@ -10,7 +10,7 @@
 - 10-K (연간 보고서): 10년
 - 10-Q (분기 보고서): 12분기
 - DEF 14A (Proxy Statement): 5년
-- 8-K EX-99.1 (실적 발표 자료): 12분기
+- 8-K Item 2.02 (실적 발표 자료): 12분기 — EX-99.1 첨부 여부는 보조 확인
 - 실적 발표 대본 (Transcript): 3년 — optional, 실패해도 오류 아님
 
 ---
@@ -21,7 +21,7 @@
 - 10-K
 - 10-Q
 - DEF 14A
-- 8-K EX-99.1 (실적 발표 자료)
+- 8-K Item 2.02 (실적 발표 자료, EX-99.1 첨부 여부 보조 확인)
 
 ### Tier 2 (선택 수집)
 - 8-K 주요 이벤트 (아래 필터 적용)
@@ -78,3 +78,12 @@ SEC EDGAR 정책에 따라 모든 API 요청에 아래 User-Agent를 포함합�
 ## 저장 경로
 
 - 회사별 index.md: artifacts/{TICKER}/phase2/step3-source-pack/index.md
+
+---
+
+## CIK 조회 우선순위
+
+1. `https://www.sec.gov/files/company_tickers_exchange.json`
+2. `https://www.sec.gov/files/company_tickers.json`
+3. `https://efts.sec.gov/LATEST/search-index`
+4. `https://www.sec.gov/cgi-bin/browse-edgar`

@@ -1,11 +1,11 @@
 ---
 name: source-pack-collector
-description: Source Pack v2의 Claude Code collector adapter. 미국 상장 주식 한 회사의 SEC 공시, IR 자료, 실적 발표 자료, transcript 후보 링크를 수집해 회사별 index.md를 만들거나 업데이트할 때 사용한다. 공통 원장인 harness/ 계약, 절차, schema, rubric을 따른다.
+description: Source Pack v2의 Codex collector adapter. 미국 상장 주식 한 회사의 SEC 공시, IR 자료, 실적 발표 자료, transcript 후보 링크를 수집해 회사별 index.md를 만들거나 업데이트할 때 사용한다. 공통 원장인 harness/ 계약, 절차, schema, rubric을 따른다.
 ---
 
 # Source Pack Collector Adapter
 
-Claude Code 환경에서 Source Pack Collector를 실행하는 adapter다.
+Codex 환경에서 Source Pack Collector를 실행하는 adapter다.
 
 ## 시작 전 필독
 
@@ -20,8 +20,8 @@ Claude Code 환경에서 Source Pack Collector를 실행하는 adapter다.
 ## 실행 원칙
 
 - 공통 업무 규칙은 위 `harness/` 파일을 단일 원본으로 따른다.
-- 이 Agent에는 공통 업무 규칙을 길게 복사하지 않는다.
-- 이 Agent에서 `.agents/` 또는 `.codex/`를 수정하지 않는다.
+- 이 Skill에는 공통 업무 규칙을 길게 복사하지 않는다.
+- 이 Skill에서 `.claude/`를 수정하지 않는다.
 - SEC/IR 요청은 속도 제한을 지키고 병렬화하지 않는다.
 
 ## 출력

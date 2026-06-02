@@ -1,0 +1,7 @@
+# Source Pack v2 Codex local configuration.
+# Common workflow rules live in harness/.
+
+[harness]
+name = "source-pack-v2"
+entry_skill = ".agents/skills/source-pack-orchestrator/SKILL.md"
+manifest = "harness/MANIFEST.md"

@@ -56,10 +56,7 @@ artifacts/
 | `raw/...` | 원자료 파일 |
 | `derived/text/...` | 원자료에서 추출한 비해석 텍스트 |
 
-## 기존 link-only 결과
-
-예전 구조인 `artifacts/{TICKER}/phase2/step3-source-pack/index.md`는 운영 산출물로 사용하지 않는다.
-필요하면 참고용으로만 읽고, 새 raw/catalog 구조로 다시 수집한다.
+삭제된 legacy link-only 구조인 `artifacts/{TICKER}/phase2/step3-source-pack/index.md`는 운영 입력이나 출력으로 사용하지 않는다.
 
 ## 수집된 회사 목록
 

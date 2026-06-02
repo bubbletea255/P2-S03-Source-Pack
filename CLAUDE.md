@@ -65,3 +65,4 @@ SEC 공시, IR 자료, 가능한 경우 transcript 원문을 수집해 raw 파�
 | 2026-06-02 | Source Pack v3 하네스 유형 분류 체계 도입, 수집형 품질 축 명세, 비교 모드 원칙 추가, 공용 템플릿 v4 생성 |
 | 2026-06-02 | raw/catalog 구조와 `source-pack-runbook.md` 실행 절차 도입 |
 | 2026-06-03 | Source Pack v4 runbook/adapter 분리 완성, collector/qa/rubric 전면 재작성, catalog schema 신규 |
+| 2026-06-03 | Source Pack v5 legacy link-only 폴더(AAPL/U) 삭제, 문서 금지 문구 정리 — 구조 변경 마무리 |

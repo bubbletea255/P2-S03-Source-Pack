@@ -100,7 +100,8 @@ artifacts/
 
 ### 3.4 link-only 모드는 운영 구조에서 제외했다
 
-기존 실습 결과인 link-only artifacts는 운영 입력으로 쓰지 않는다.
+기존 실습 결과였던 link-only artifacts는 운영 입력으로 쓰지 않는다.
+해당 로컬 폴더는 삭제하고, 예전 경로는 금지/legacy 문맥에서만 짧게 언급한다.
 
 예전 경로:
 
@@ -109,7 +110,7 @@ artifacts/{TICKER}/phase2/step3-source-pack/index.md
 ```
 
 이 경로는 이제 금지/legacy 문맥에서만 언급된다.
-필요하면 참고용으로만 읽고 새 raw/catalog 구조로 다시 수집한다.
+운영 자료가 필요하면 새 raw/catalog 구조로 다시 수집한다.
 
 ### 3.5 transcript는 optional source다
 
@@ -303,8 +304,7 @@ Compare-Object (Get-Content -Encoding UTF8 AGENTS.md) (Get-Content -Encoding UTF
 9. `artifacts/companies/AAPL/index.md` 생성 검증
 10. QA 실제 실행
 11. 첫 테스트에서 발견된 schema/procedure/rubric 문제 반영
-12. 기존 link-only AAPL/U artifacts 삭제 또는 legacy 격리
-13. 테스트 성공 후 수집 범위 확장
+12. 테스트 성공 후 수집 범위 확장
 
 ## 8. 다음 단계 추천 순서
 
@@ -325,7 +325,7 @@ Get-ChildItem -Force harness\schemas
 특히 아래 파일을 커밋할지 확인한다.
 
 - `docs/대화 원본/_checkpoint.md`
-- 기존 link-only artifacts 관련 파일
+- 삭제된 기존 link-only artifacts의 git 상태
 - 새 handoff 문서
 
 권장:

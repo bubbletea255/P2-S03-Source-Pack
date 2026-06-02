@@ -49,6 +49,7 @@ artifacts/catalog/runs.jsonl
 | 회사별 index와 catalog record가 없음 | `new_collection` |
 | 기존 catalog가 있고 새 자료만 확인 | `incremental_update` |
 | 특정 자료 또는 실패 항목만 다시 확인 | `partial_recheck` |
+| 수집 파이프라인 검증을 위해 제한된 범위만 실행 | `test_collection` |
 | Claude/Codex 비교 실행 | `comparison` |
 
 주의:

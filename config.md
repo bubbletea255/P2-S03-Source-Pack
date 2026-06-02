@@ -77,7 +77,11 @@ SEC EDGAR 정책에 따라 모든 API 요청에 아래 User-Agent를 포함합�
 
 ## 저장 경로
 
-- 회사별 index.md: artifacts/{TICKER}/phase2/step3-source-pack/index.md
+- 회사별 index.md: artifacts/companies/{TICKER}/index.md
+- 기계용 catalog: artifacts/catalog/*.jsonl
+- 실행 기록: artifacts/runs/{run-id}/
+- 원자료: artifacts/raw/...
+- 비해석 텍스트: artifacts/derived/text/...
 
 ---
 

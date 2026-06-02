@@ -64,12 +64,14 @@ QA는 대화 보고로 끝나지 않는다.
 4. `catalog/runs.jsonl`에 해당 `run_id` record가 있는지 확인한다.
 5. `runs.jsonl.run_summary_path`와 `qa_path`가 실제 경로와 맞는지 확인한다.
 6. `run_mode`와 `status`가 schema 허용값인지 확인한다.
+7. `run_mode: test_collection`이면 `runs.jsonl.run_scope`가 비어 있지 않은지 확인한다.
 
 실패 기준:
 
 - `run_id`가 없거나 run 폴더가 없으면 `fail`
 - `runs.jsonl` record가 없으면 `unverified`
 - `run_summary_path` 또는 `qa_path`가 잘못되면 `partial_pass` 또는 `unverified`
+- `test_collection`인데 `run_scope`가 없거나 비어 있으면 `unverified`
 
 ## 2단계: catalog JSONL 구조 검증
 
@@ -106,7 +108,7 @@ artifacts/catalog/runs.jsonl
 | `entities.jsonl` | `entity_status` |
 | `documents.jsonl` | `source_type`, `document_type`, `collection_status`, `text_status` |
 | `files.jsonl` | `source_type`, `file_role`, `file_format`, `file_status` |
-| `runs.jsonl` | `run_mode`, `status` |
+| `runs.jsonl` | `run_mode`, `status`, 조건부 `run_scope` |
 | `download-log.jsonl` | `attempt_status` |
 
 자동 실패 또는 미검증:
@@ -153,6 +155,12 @@ Tier 1 기본 범위:
 | 10-Q | 최대 12분기 |
 | DEF 14A | 최대 5년 |
 | 8-K Item 2.02 | 최대 12분기 |
+
+`test_collection` 예외:
+
+- `run_mode: test_collection`이면 `runs.jsonl.run_scope`에 선언된 범위를 document 검증 기준으로 삼는다.
+- `run_scope` 밖의 Tier 1 기본 범위 누락은 실패나 부분 성공의 원인으로 삼지 않는다.
+- `test_collection`의 `pass`는 선언된 테스트 범위 안에서의 통과를 뜻하며, 해당 ticker의 전체 Source Pack 완료를 뜻하지 않는다.
 
 실패 기준:
 

@@ -23,7 +23,7 @@ Claude Code 환경에서 Source Pack v2 하네스를 시작할 때 사용하는 
 
 ## 실행 절차
 
-1. 사용자의 요청이 새 실행, 증분 업데이트, 부분 재검토, 비교 모드 중 무엇인지 판단한다.
+1. 사용자의 요청이 새 실행, 증분 업데이트, 부분 재검토, 테스트 실행, 비교 모드 중 무엇인지 판단한다.
 2. `harness/ORCHESTRATOR.md`와 `harness/procedures/source-pack-runbook.md`의 실행 흐름을 따른다.
 3. 티커별 수집은 `source-pack-collector` Agent를 사용한다.
 4. 각 티커 완료 후 `harness/procedures/source-pack-qa.md` 기준으로 산출물을 점검한다.

@@ -40,10 +40,12 @@ Source Pack은 원자료 수집형 하네스이므로 이 runbook은 분석, 요
 | `new_collection` | 해당 티커의 catalog/index가 없거나 새로 수집하라는 요청 |
 | `incremental_update` | 기존 catalog/index를 기준으로 새 원자료를 추가하는 요청 |
 | `partial_recheck` | SEC, IR, transcript, QA 등 특정 영역만 다시 확인하는 요청 |
+| `test_collection` | 수집 파이프라인 검증을 위해 제한된 범위만 실행하는 요청 |
 | `comparison` | Claude/Codex 또는 두 실행 결과를 비교하는 요청 |
 
 모드가 불분명하면 현재 catalog와 회사별 index 존재 여부를 확인해 가장 보수적인 모드로 분류한다.
 운영 원장을 덮어쓸 수 있는 작업은 사용자 승인 전 진행하지 않는다.
+`test_collection`은 전체 Source Pack 완료가 아니라 선언된 테스트 범위의 실행 검증으로 분류한다.
 
 ## 1. 대상 확정
 
@@ -61,6 +63,7 @@ Source Pack은 원자료 수집형 하네스이므로 이 runbook은 분석, 요
 대상 티커:
 실행 모드:
 수집 범위:
+run_scope:
 속도 제한:
 SEC User-Agent:
 8-K 주요 이벤트 필터:
@@ -79,6 +82,10 @@ transcript 원문 수집 여부:
 
 사용자가 승인하면 다음 단계로 진행한다.
 
+`test_collection`에서는 `config.md`의 전체 운영 범위를 그대로 적용하지 않는다.
+사용자에게 승인받은 제한 범위를 `run_scope`에 한 줄로 기록하고, Collector와 QA는 그 선언 범위를 기준으로 실행한다.
+예: `test only: latest AAPL 10-K primary SEC filing, no exhibits, no IR, no transcript`
+
 ## 3. 사전 점검
 
 대상 티커별로 아래를 확인한다.
@@ -91,7 +98,7 @@ transcript 원문 수집 여부:
 6. transcript 요청이 있으면 최근 90일 내 동일 ticker/quarter/source 실패 기록을 확인한다.
 
 기존 link-only 결과나 예전 경로는 운영 입력으로 사용하지 않는다.
-필요하면 참고용으로만 읽고 새 catalog 구조로 재수집한다.
+운영 자료가 필요하면 새 raw/catalog 구조로 재수집한다.
 
 ## 4. 티커별 실행
 

@@ -45,7 +45,7 @@ artifacts/companies/{TICKER}/index.md
 
 last_updated: YYYY-MM-DD
 last_run_id: {이 index를 마지막으로 갱신한 run-id}
-collection_mode: new_collection | incremental_update | partial_recheck | comparison
+collection_mode: new_collection | incremental_update | partial_recheck | test_collection | comparison
 catalog_status: valid | partial | failed | unverified
 ticker: {TICKER}
 entity_id: sec-cik-{10자리 CIK} or [확인 필요: reason]

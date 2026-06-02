@@ -374,17 +374,35 @@ artifacts/catalog/runs.jsonl
 | `run_summary_path` | string | 사람용 실행 요약 | `artifacts/runs/run-20260602-aapl/run-summary.md` |
 | `qa_path` | string | QA 파일 | `artifacts/runs/run-20260602-aapl/qa.md` |
 
+조건부 필드:
+
+| 필드 | 타입 | 설명 | 예시 |
+|---|---|---|---|
+| `run_scope` | string or null | 이번 run에서 승인된 수집/평가 범위. `test_collection`일 때 필수 | `test only: latest AAPL 10-K primary SEC filing, no exhibits, no IR, no transcript` |
+
 허용 값:
 
 | 필드 | 값 |
 |---|---|
-| `run_mode` | `new_collection`, `incremental_update`, `partial_recheck`, `comparison` |
+| `run_mode` | `new_collection`, `incremental_update`, `partial_recheck`, `test_collection`, `comparison` |
 | `status` | `success`, `partial_success`, `failed`, `stopped` |
+
+규칙:
+
+- `run_mode: test_collection`이면 `run_scope`를 비워 두지 않는다.
+- `test_collection`의 `success` 또는 QA `pass`는 `run_scope`에 선언된 범위 안에서의 성공을 뜻한다.
+- `test_collection` 결과를 해당 ticker의 전체 Source Pack 완료로 해석하지 않는다.
 
 예시:
 
 ```json
 {"run_id":"run-20260602-aapl","target":"AAPL","run_mode":"new_collection","started_at":"2026-06-02T10:00:00+09:00","ended_at":"2026-06-02T10:15:00+09:00","status":"partial_success","documents_attempted":42,"documents_collected":40,"files_available":55,"run_summary_path":"artifacts/runs/run-20260602-aapl/run-summary.md","qa_path":"artifacts/runs/run-20260602-aapl/qa.md"}
+```
+
+`test_collection` 예시:
+
+```json
+{"run_id":"run-20260602-aapl-test","target":"AAPL","run_mode":"test_collection","run_scope":"test only: latest AAPL 10-K primary SEC filing, no exhibits, no IR, no transcript","started_at":"2026-06-02T10:00:00+09:00","ended_at":"2026-06-02T10:03:00+09:00","status":"success","documents_attempted":1,"documents_collected":1,"files_available":1,"run_summary_path":"artifacts/runs/run-20260602-aapl-test/run-summary.md","qa_path":"artifacts/runs/run-20260602-aapl-test/qa.md"}
 ```
 
 ## 관련 실행 로그: `download-log.jsonl`

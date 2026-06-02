@@ -55,6 +55,7 @@ Source Pack에는 분석형 리포트의 깊이 기준을 그대로 적용하지
 | `new_collection` | 해당 티커의 catalog/index가 없음 | 새 run을 만들고 원자료를 수집한다 |
 | `incremental_update` | 기존 catalog/index가 있음 | 기존 원장을 기준으로 새 문서만 추가한다 |
 | `partial_recheck` | 특정 영역만 요청 | 요청된 SEC/IR/transcript/QA 영역만 다시 확인한다 |
+| `test_collection` | 수집 파이프라인 검증을 위한 제한 범위 요청 | 선언된 `run_scope` 안에서만 수집하고 평가한다 |
 | `comparison` | Claude/Codex 또는 두 실행 비교 | 입력을 공유하고 결과를 분리 저장한다 |
 
 ## 비교 모드 원칙
@@ -82,7 +83,7 @@ Source Pack에는 분석형 리포트의 깊이 기준을 그대로 적용하지
 
 ## 실행 흐름
 
-1. 사용자 요청이 신규 수집, 증분 업데이트, 부분 재검토, 비교 모드 중 무엇인지 판단한다.
+1. 사용자 요청이 신규 수집, 증분 업데이트, 부분 재검토, 테스트 실행, 비교 모드 중 무엇인지 판단한다.
 2. `harness/procedures/source-pack-runbook.md`를 읽고 실행 단계를 따른다.
 3. `watchlist.md`와 사용자 입력을 기준으로 대상 티커를 확정한다.
 4. `config.md`를 읽어 수집 범위, 속도 제한, User-Agent를 확인한다.

@@ -15,6 +15,7 @@ SEC 공시, IR 자료, 가능한 경우 transcript 원문을 수집해 raw 파�
 | 새 실행 | "source pack 만들어줘", "{티커} 공시 자료 수집해줘" |
 | 업데이트 | "source pack 업데이트해줘", "관심 종목 source pack 업데이트해줘" |
 | 부분 재검토 | "{티커} IR 자료만 다시 확인해줘", "Transcript만 보완해줘" |
+| 테스트 실행 | "{티커} 1건으로 테스트해줘", "AAPL 최신 10-K 하나로 수집 테스트해줘" |
 | 교차 검증 | "Claude Codex 비교해줘", "두 결과 비교해줘" |
 
 `source-pack-orchestrator`는 사용자 요청을 받는 adapter 진입점 이름이다.
@@ -64,3 +65,5 @@ SEC 공시, IR 자료, 가능한 경우 transcript 원문을 수집해 raw 파�
 | 2026-06-02 | Source Pack v2 공통 원장 구조로 전환 |
 | 2026-06-02 | Source Pack v3 하네스 유형 분류 체계 도입, 수집형 품질 축 명세, 비교 모드 원칙 추가, 공용 템플릿 v4 생성 |
 | 2026-06-02 | raw/catalog 구조와 `source-pack-runbook.md` 실행 절차 도입 |
+| 2026-06-03 | Source Pack v4 runbook/adapter 분리 완성, collector/qa/rubric 전면 재작성, catalog schema 신규 |
+| 2026-06-03 | Source Pack v5 legacy link-only 폴더(AAPL/U) 삭제, 문서 금지 문구 정리 — 구조 변경 마무리 |

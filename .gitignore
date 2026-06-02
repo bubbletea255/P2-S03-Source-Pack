@@ -1,3 +1,7 @@
 # /저장 명령 — 대화 기록 (GitHub 노출 방지)
 docs/대화 원본/
 docs/대화 요약/
+
+# Source Pack raw 원자료 및 텍스트 추출물 (대용량 파일, git 제외)
+artifacts/raw/
+artifacts/derived/

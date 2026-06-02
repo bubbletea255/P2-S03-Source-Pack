@@ -41,6 +41,8 @@ Source Pack catalog는 로컬에 저장된 원자료와 그 메타데이터의 �
 - 확인되지 않은 값은 필드를 생략하지 말고 `null`을 사용한다.
 - 사람이 확인해야 하는 내용은 `notes` 또는 해당 run의 `qa.md`에 `[확인 필요: {이유}]`로 남긴다.
 - `link_only` 상태는 사용하지 않는다.
+- `catalog/*.jsonl`은 upsert 장부다. 같은 고유 key의 record를 중복 append하지 않고 갱신한다.
+- `download-log.jsonl`은 append 전용 실행 일지다. 같은 다운로드 시도가 반복되더라도 시도 기록을 보존한다.
 
 ## 원장 우선순위
 
@@ -117,6 +119,7 @@ sha256:{hash}
 ```
 
 같은 파일이 다른 경로에서 발견되어도 같은 `file_id`를 가질 수 있다.
+`files.jsonl`의 upsert key는 `file_id + document_id + file_role` 조합이다.
 
 ### slug 규칙
 
@@ -313,6 +316,7 @@ artifacts/catalog/files.jsonl
 | 필드 | 타입 | 설명 | 예시 |
 |---|---|---|---|
 | `content_type` | string or null | 파일 MIME type. 서버 응답 header 또는 파일 검사로 확인한 값 | `text/html`, `application/pdf`, `text/plain` |
+| `notes` | string or null | 중복 hash 관계, 경로 예외, 확인 필요 메모 | `same_content_as: sha256:...` |
 
 `file_format`은 저장된 파일의 형식 또는 확장자 기준 분류이고, `content_type`은 가능한 경우 확인한 MIME type이다.  
 MIME type을 확인할 수 없으면 `content_type`은 `null`로 둔다.
@@ -338,6 +342,15 @@ run 완료 후 아래 조건을 만족한 파일만 `catalog/files.jsonl`에 승
 - source URL 또는 원출처 metadata가 남아 있다.
 
 실패한 다운로드는 기본적으로 `files.jsonl`에 올리지 않는다.
+
+Upsert와 중복 hash 규칙:
+
+- 같은 `file_id + document_id + file_role` 조합이 이미 있으면 중복 append하지 않고 기존 record를 갱신한다.
+- 같은 `file_id`지만 `document_id`가 다르면 별도 record를 허용한다.
+- SEC 자료에서 accession이 다르면 각 accession `raw_root`의 자기완결성을 위해 별도 `local_path`를 허용한다.
+- 같은 `file_id`, 같은 `document_id`, 다른 `file_role`이면 기존 `local_path` 재사용을 우선한다.
+- 역할 구분상 별도 파일명이 필요하면 별도 `local_path`를 허용하고 `notes`에 이유를 남긴다.
+- 같은 hash를 가진 별도 record에는 가능한 경우 `notes`에 `same_content_as` 또는 `duplicate_hash_of` 관계를 남긴다.
 
 예시:
 

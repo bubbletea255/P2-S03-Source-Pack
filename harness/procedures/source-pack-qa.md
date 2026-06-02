@@ -161,6 +161,7 @@ Tier 1 기본 범위:
 - `run_mode: test_collection`이면 `runs.jsonl.run_scope`에 선언된 범위를 document 검증 기준으로 삼는다.
 - `run_scope` 밖의 Tier 1 기본 범위 누락은 실패나 부분 성공의 원인으로 삼지 않는다.
 - `test_collection`의 `pass`는 선언된 테스트 범위 안에서의 통과를 뜻하며, 해당 ticker의 전체 Source Pack 완료를 뜻하지 않는다.
+- `qa.md`에는 실행 범위 밖 단계도 생략하지 않고 `skipped_out_of_scope`로 표시한다.
 
 실패 기준:
 

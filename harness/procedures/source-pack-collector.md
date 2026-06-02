@@ -59,6 +59,65 @@ artifacts/catalog/runs.jsonl
 - 기존 산출물 삭제, archive, 대규모 덮어쓰기는 사람 승인 후에만 한다.
 - `companies/{TICKER}/sources.jsonl`은 만들지 않는다.
 
+## 0.5단계: incremental update 사전 판정
+
+`incremental_update`는 기존 catalog와 raw 파일을 신뢰하고 새 자료만 추가하는 fast path다.
+기존 문서를 무조건 다시 다운로드하지 않는다.
+
+각 SEC 후보에서 `document_id`를 만든 뒤 `documents.jsonl`과 대조해 아래처럼 분류한다.
+
+| 판정 | 조건 | 처리 |
+|---|---|---|
+| `new_document` | 같은 `document_id`가 없음 | 다운로드 시도 |
+| `skipped_existing` | 이미 수집된 문서와 대표 파일이 fast path 조건을 통과 | 다운로드하지 않고 run-summary 카운트만 증가 |
+| `repair_required` | 과거에 `collected`였으나 catalog/file 관계가 깨짐 | 자동 재다운로드 금지, `qa.md`와 run-summary에 사람 확인 필요로 기록 |
+| `retry_eligible` | `failed`, `pending`, 또는 현재 범위에 다시 포함된 `skipped` 문서 | 다운로드 시도 |
+
+`collection_status: collected` fast path 조건:
+
+1. `primary_file_id`가 있다.
+2. `files.jsonl`에 대응 `file_id` record가 있다.
+3. `files.local_path`가 실제 존재한다.
+4. 실제 파일 크기가 0보다 크다.
+
+모두 통과하면 `skipped_existing`으로 처리한다.
+`incremental_update` fast path에서는 SHA-256을 재계산하지 않는다.
+SHA-256 재검증은 `partial_recheck` 또는 별도 정합성 확인 요청에서만 수행한다.
+
+`repair_required` 사유:
+
+| 사유 | 의미 |
+|---|---|
+| `missing_primary_file_id` | `collection_status: collected`인데 `primary_file_id`가 없음 |
+| `missing_file_record` | `primary_file_id`에 대응하는 `files.jsonl` record가 없음 |
+| `missing_local_file` | `files.local_path`의 실제 파일이 없음 |
+| `zero_size` | 파일이 있으나 실제 크기가 0 |
+| `sha256_mismatch` | `partial_recheck` 또는 정밀 검증에서 실제 hash와 catalog hash가 불일치 |
+
+`repair_required`는 자동 수정이 아니다.
+기존 raw 파일 또는 catalog 관계를 덮어쓸 수 있으므로 사람 승인 후 별도 복구 절차로 처리한다.
+
+`collection_status`별 처리:
+
+| 기존 상태 | 처리 |
+|---|---|
+| `collected` | fast path 조건을 확인해 `skipped_existing` 또는 `repair_required`로 분류 |
+| `failed` | `retry_eligible`로 분류하고 이번 run에서 다시 시도 가능 |
+| `pending` | `retry_eligible`로 분류하고 이번 run에서 다시 시도 가능 |
+| `skipped` | `notes`의 `[skip_reason: ...]`과 현재 config/run_scope를 기준으로 재평가 |
+
+`skipped` 재평가 규칙:
+
+| notes prefix | 의미 | 재평가 동작 |
+|---|---|---|
+| `[skip_reason: out_of_scope]` | 당시 config 또는 run_scope 밖이라 제외 | 현재 config/run_scope에 들어오면 `retry_eligible` |
+| `[skip_reason: unavailable]` | 당시 자료 접근 불가, 미공개, 후보 없음 | 재시도 조건이 충족되면 `retry_eligible` |
+| `[skip_reason: user_excluded]` | 사용자가 명시적으로 제외 | 자동 재평가 금지, 사용자가 명시적으로 다시 포함할 때만 `retry_eligible` |
+
+`skipped` 상태를 새로 남길 때는 가능한 한 위 prefix 중 하나를 `documents.jsonl.notes`에 포함한다.
+사전 판정 결과는 기본적으로 `download-log.jsonl`에 쓰지 않는다.
+`download-log.jsonl`은 실제 네트워크 또는 파일 다운로드 시도만 기록한다.
+
 ## 1단계: run 초기화
 
 1. `run_id`를 만든다.
@@ -213,6 +272,18 @@ artifacts/raw/sec-edgar/cik-{CIK}/accession-{ACCESSION}/
 9. 대표 파일은 `file_role: primary`로 기록하고, 해당 `file_id`를 `documents.jsonl.primary_file_id`에 연결한다.
 10. exhibit 파일은 `file_role: exhibit`으로 기록한다.
 11. 실패하면 `files.jsonl`에 올리지 않고 `download-log.jsonl`, `documents.jsonl.notes`, `qa.md`에 실패 사유를 남긴다.
+
+원장 갱신 규칙:
+
+- `download-log.jsonl`은 append 전용 실행 일지다.
+- `catalog/*.jsonl`은 upsert 장부다.
+- `files.jsonl`은 `file_id + document_id + file_role` 조합을 upsert key로 사용한다.
+- 같은 `file_id + document_id + file_role` 조합이 이미 있으면 중복 append하지 않고 기존 record를 갱신한다.
+- 같은 `file_id`지만 다른 `document_id`이면 별도 record를 허용한다.
+- SEC 자료에서 accession이 다르면 각 accession `raw_root`의 자기완결성을 위해 별도 `local_path`를 허용한다.
+- 같은 `file_id`, 같은 `document_id`, 다른 `file_role`이면 기존 `local_path` 재사용을 우선한다.
+- 역할 구분상 별도 파일명이 필요하면 별도 `local_path`를 허용하고 `notes`에 이유를 남긴다.
+- 같은 hash를 가진 별도 record에는 가능한 경우 `notes`에 `same_content_as` 또는 `duplicate_hash_of` 관계를 남긴다.
 
 `files.jsonl` 승격 조건:
 

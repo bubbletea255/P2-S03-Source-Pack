@@ -69,3 +69,4 @@ SEC 공시, IR 자료, 가능한 경우 transcript 원문을 수집해 raw 파�
 | 2026-06-03 | Source Pack v5 legacy link-only 폴더(AAPL/U) 삭제, 문서 금지 문구 정리 — 구조 변경 마무리 |
 | 2026-06-03 | Source Pack v6 test_collection 공식 실행 모드 추가, run_scope 필드 도입 — AAPL 파이프라인 테스트 준비 |
 | 2026-06-03 | Source Pack v7 AAPL test_collection 실행 산출물, files.jsonl composite key, upsert/append 구분, QA 14단계 완성 |
+| 2026-06-03 | Source Pack v8 incremental sync 설계 완성, runs.jsonl delta 필드 교체(collected_new/skipped_existing/repair_required/failed/files_collected_new), AAPL SEC 소규모 확장 테스트 산출물(10-Q/DEF 14A/8-K primary 3건 추가, skipped_existing 검증) |

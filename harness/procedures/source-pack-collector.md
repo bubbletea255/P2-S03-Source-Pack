@@ -523,9 +523,11 @@ artifacts/catalog/runs.jsonl
 - `started_at`
 - `ended_at`
 - `status`
-- `documents_attempted`
-- `documents_collected`
-- `files_available`
+- `collected_new`
+- `skipped_existing`
+- `repair_required`
+- `failed`
+- `files_collected_new`
 - `run_summary_path`
 - `qa_path`
 

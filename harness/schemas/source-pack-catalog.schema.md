@@ -51,7 +51,7 @@ Source Pack catalog는 로컬에 저장된 원자료와 그 메타데이터의 �
 | `documents.jsonl` | 문서 단위 단일 원장 | 문서 존재와 상태의 기준 |
 | `files.jsonl` | 실제 로컬 파일 단위 확정 원장 | 파일 존재와 경로의 기준 |
 | `entities.jsonl` | 회사/entity 원장 | ticker, CIK, 회사 메타데이터 기준 |
-| `runs.jsonl` | 실행 이력 기계용 인덱스 | run 요약 위치 기준 |
+| `runs.jsonl` | 실행 이력 기계용 인덱스 | 실행 delta와 run 요약 위치 기준 |
 | `companies/{TICKER}/index.md` | 사람용 회사별 지도 | catalog와 충돌하면 catalog 우선 |
 
 `companies/{TICKER}/sources.jsonl`은 만들지 않는다.
@@ -364,6 +364,8 @@ Upsert와 중복 hash 규칙:
 
 상세 실행 기록은 `artifacts/runs/{run-id}/`에 둔다.  
 `catalog/runs.jsonl`은 그 상세 기록으로 가는 짧은 포인터다.
+`catalog/runs.jsonl`은 실행별 delta를 기록하며 실제 보유 원자료의 source of truth가 아니다.
+실제 보유 문서와 파일의 기준은 `documents.jsonl`과 `files.jsonl`이다.
 
 경로:
 
@@ -381,9 +383,11 @@ artifacts/catalog/runs.jsonl
 | `started_at` | string | 시작 시각 | `2026-06-02T10:00:00+09:00` |
 | `ended_at` | string or null | 종료 시각 | `2026-06-02T10:15:00+09:00` |
 | `status` | string | 실행 상태 | `success` |
-| `documents_attempted` | number | 시도 문서 수 | `42` |
-| `documents_collected` | number | 수집 성공 문서 수 | `40` |
-| `files_available` | number | 사용 가능 파일 수 | `55` |
+| `collected_new` | number | 이번 run에서 새로 수집 성공한 문서 수. 문서 단위 delta | `40` |
+| `skipped_existing` | number | fast path 조건을 통과해 다시 다운로드하지 않은 기존 문서 수. 문서 단위 delta | `2` |
+| `repair_required` | number | 과거에 수집 성공했으나 현재 catalog/file 관계 확인이 필요한 문서 수. 문서 단위 delta | `0` |
+| `failed` | number | 이번 run에서 수집 시도했지만 실패했거나 후속 사용이 위험한 문서 수. 문서 단위 delta | `2` |
+| `files_collected_new` | number | 이번 run에서 `files.jsonl`에 새로 승격한 파일 record 수. 파일 단위 delta | `55` |
 | `run_summary_path` | string | 사람용 실행 요약 | `artifacts/runs/run-20260602-aapl/run-summary.md` |
 | `qa_path` | string | QA 파일 | `artifacts/runs/run-20260602-aapl/qa.md` |
 
@@ -405,17 +409,20 @@ artifacts/catalog/runs.jsonl
 - `run_mode: test_collection`이면 `run_scope`를 비워 두지 않는다.
 - `test_collection`의 `success` 또는 QA `pass`는 `run_scope`에 선언된 범위 안에서의 성공을 뜻한다.
 - `test_collection` 결과를 해당 ticker의 전체 Source Pack 완료로 해석하지 않는다.
+- `collected_new`, `skipped_existing`, `repair_required`, `failed`는 문서 단위 실행 결과다.
+- `files_collected_new`는 파일 원장 record 단위 실행 결과다. SEC exhibit 때문에 `collected_new`와 다를 수 있다.
+- 다음 하네스는 실제 입력 자료 존재 여부를 `runs.jsonl`이 아니라 `documents.jsonl`과 `files.jsonl`로 판단한다.
 
 예시:
 
 ```json
-{"run_id":"run-20260602-aapl","target":"AAPL","run_mode":"new_collection","started_at":"2026-06-02T10:00:00+09:00","ended_at":"2026-06-02T10:15:00+09:00","status":"partial_success","documents_attempted":42,"documents_collected":40,"files_available":55,"run_summary_path":"artifacts/runs/run-20260602-aapl/run-summary.md","qa_path":"artifacts/runs/run-20260602-aapl/qa.md"}
+{"run_id":"run-20260602-aapl","target":"AAPL","run_mode":"new_collection","started_at":"2026-06-02T10:00:00+09:00","ended_at":"2026-06-02T10:15:00+09:00","status":"partial_success","collected_new":40,"skipped_existing":0,"repair_required":0,"failed":2,"files_collected_new":55,"run_summary_path":"artifacts/runs/run-20260602-aapl/run-summary.md","qa_path":"artifacts/runs/run-20260602-aapl/qa.md"}
 ```
 
 `test_collection` 예시:
 
 ```json
-{"run_id":"run-20260602-aapl-test","target":"AAPL","run_mode":"test_collection","run_scope":"test only: latest AAPL 10-K primary SEC filing, no exhibits, no IR, no transcript","started_at":"2026-06-02T10:00:00+09:00","ended_at":"2026-06-02T10:03:00+09:00","status":"success","documents_attempted":1,"documents_collected":1,"files_available":1,"run_summary_path":"artifacts/runs/run-20260602-aapl-test/run-summary.md","qa_path":"artifacts/runs/run-20260602-aapl-test/qa.md"}
+{"run_id":"run-20260602-aapl-test","target":"AAPL","run_mode":"test_collection","run_scope":"test only: latest AAPL 10-K primary SEC filing, no exhibits, no IR, no transcript","started_at":"2026-06-02T10:00:00+09:00","ended_at":"2026-06-02T10:03:00+09:00","status":"success","collected_new":1,"skipped_existing":0,"repair_required":0,"failed":0,"files_collected_new":1,"run_summary_path":"artifacts/runs/run-20260602-aapl-test/run-summary.md","qa_path":"artifacts/runs/run-20260602-aapl-test/qa.md"}
 ```
 
 ## 관련 실행 로그: `download-log.jsonl`

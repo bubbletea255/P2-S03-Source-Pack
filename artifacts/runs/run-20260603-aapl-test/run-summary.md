@@ -16,6 +16,11 @@
 |---|---|---:|---:|---:|---:|---|---|---|
 | AAPL | 성공 | 1 | 1 | 1 | 0 | 제외 | 제외 | 성공 |
 
+## Incremental Sync 카운트
+| 티커 | collected_new | skipped_existing | repair_required | failed | files_collected_new |
+|---|---:|---:|---:|---:|---:|
+| AAPL | 1 | 0 | 0 | 0 | 1 |
+
 ## 주요 산출물
 | 티커 | 파일 | 경로 |
 |---|---|---|

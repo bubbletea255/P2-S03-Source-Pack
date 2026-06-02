@@ -20,8 +20,8 @@
 |---|---|---:|---:|---:|---:|---|---|---|
 
 ## Incremental Sync 카운트
-| 티커 | collected_new | skipped_existing | repair_required | failed |
-|---|---:|---:|---:|---:|
+| 티커 | collected_new | skipped_existing | repair_required | failed | files_collected_new |
+|---|---:|---:|---:|---:|---:|
 
 ## 주요 산출물
 | 티커 | 파일 | 경로 |
@@ -45,10 +45,14 @@
 
 | 필드 | 의미 |
 |---|---|
-| `collected_new` | 이번 run에서 새로 다운로드해 catalog/files에 승격한 문서 또는 파일 수 |
-| `skipped_existing` | 기존 catalog와 local file fast path 조건을 통과해 다시 다운로드하지 않은 수 |
-| `repair_required` | 과거에 수집 성공했으나 현재 catalog/file 관계가 깨져 사람 확인이 필요한 수 |
-| `failed` | 이번 run에서 실제 시도했지만 실패했거나 후속 사용이 위험한 수 |
+| `collected_new` | 이번 run에서 새로 다운로드해 catalog에 `collected`로 승격한 문서 수 |
+| `skipped_existing` | 기존 catalog와 local file fast path 조건을 통과해 다시 다운로드하지 않은 문서 수 |
+| `repair_required` | 과거에 수집 성공했으나 현재 catalog/file 관계가 깨져 사람 확인이 필요한 문서 수 |
+| `failed` | 이번 run에서 실제 시도했지만 실패했거나 후속 사용이 위험한 문서 수 |
+| `files_collected_new` | 이번 run에서 `files.jsonl`에 새로 승격한 파일 record 수. exhibit 수집 시 문서 수와 다를 수 있음 |
+
+`collected_new`, `skipped_existing`, `repair_required`, `failed`는 문서 단위 카운트다.
+`files_collected_new`는 파일 원장 record 단위 카운트다.
 
 `repair_required`는 자동 복구가 아니다.
 사유는 `qa.md`와 `run-summary.md`의 실패와 확인 필요 표에 남긴다.

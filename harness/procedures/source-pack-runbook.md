@@ -187,3 +187,24 @@ QA 상태는 `pass`, `partial_pass`, `unverified`, `fail`, `stopped` 중 하나�
 | transcript 차단/유료벽 | optional 실패로 기록, 우회 시도 금지 |
 | QA 실패 | 산출물 보존, 운영 입력 사용 위험 표시 |
 | 사용자 승인 없음 | 운영 catalog/index 반영 중단 |
+
+## 장애 진단 순서
+
+이 섹션은 실행이 끝난 뒤 결과가 이상하거나 `failed`, `stopped`, `partial_success`, `repair_required`, `unverified` 같은 상태가 보일 때 사용한다.
+실행 중 실패를 어떻게 처리할지는 위 `실패 처리`를 따르고, 실행 후 원인 파악은 아래 순서로 확인한다.
+
+| 순서 | 볼 파일 | 확인할 것 |
+|---:|---|---|
+| 1 | `artifacts/catalog/runs.jsonl` | 최신 `run_id`, `status`, `collected_new`, `skipped_existing`, `repair_required`, `failed`, `files_collected_new` |
+| 2 | `artifacts/runs/{run-id}/run-summary.md` | 실패와 확인 필요 요약, 영향받은 범위, 권장 다음 조치 |
+| 3 | `artifacts/runs/{run-id}/download-log.jsonl` | 실제 attempt별 `attempt_status`, `http_status`, `error`, `source_url`, `target_path` |
+| 4 | `artifacts/runs/{run-id}/qa.md` | 표준 14단계 중 실패 또는 미검증 지점, 다음 하네스 사용 가능 여부 |
+| 5 | `artifacts/catalog/documents.jsonl`, `artifacts/catalog/files.jsonl` | `collection_status`, `primary_file_id`, `file_status`, `local_path`, `sha256`, `size_bytes` 관계 |
+
+| 상태 | 의미 | 어디서 | 우선 행동 |
+|---|---|---|---|
+| `failed` | 수집 또는 QA 실패로 후속 사용이 위험함 | `runs.jsonl`, `qa.md` | `qa.md`와 `download-log.jsonl`에서 실패 단계와 attempt 오류를 확인 |
+| `stopped` | 시작 전 조건 또는 transport/preflight/승인 문제로 중단 | `runs.jsonl`, `qa.md` | `config.md`, preflight 결과, User-Agent, 승인 조건을 확인 |
+| `partial_success` | 일부는 성공했지만 일부 실패 또는 확인 필요가 있음 | `runs.jsonl`, `run-summary.md` | 사용 가능한 범위와 실패/보류 범위를 분리 |
+| `repair_required` | 과거에는 수집 성공했으나 기존 파일 또는 catalog 관계가 깨짐 | `runs.jsonl` 집계, `files.jsonl`/`qa.md` 상세 | 자동 복구 금지, `files.jsonl.local_path`와 raw 파일 존재를 직접 확인 |
+| `unverified` | catalog, raw 파일, index, run 관계 검증이 부족함 | `qa.md`, `index.md`의 `catalog_status` | 다음 하네스 확정 입력으로 사용하지 말고 QA 실패 지점을 보완 |

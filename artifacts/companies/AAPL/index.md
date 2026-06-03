@@ -1,7 +1,7 @@
 ﻿# Source Pack - AAPL (Apple Inc.)
 
 last_updated: 2026-06-03
-last_run_id: run-20260603-aapl-sec-full-scope-test
+last_run_id: run-20260603-aapl-sec-full-scope-test-v2
 collection_mode: test_collection
 catalog_status: valid
 ticker: AAPL
@@ -12,7 +12,7 @@ sector: Electronic Computers
 fiscal_year_end: [확인 필요: Apple fiscal year end varies; use documents.period_end for filing-level matching]
 ir_site: https://investor.apple.com/
 source_priority: SEC EDGAR -> Company IR -> Transcript optional -> manual check
-collection_scope: test only: AAPL SEC Tier 1 full-range expansion; 10-K 10 years, 10-Q 12 quarters, DEF 14A 5 years, 8-K Item 2.02 12 quarters with EX-99.1 when present; no IR, no transcript, no derived text
+collection_scope: test only: rerun AAPL SEC Tier 1 full-range scope; verify skipped_existing for 10-K 10 years, 10-Q 12 quarters, DEF 14A 5 years, 8-K Item 2.02 12 quarters and existing EX-99.1 exhibits; no downloads, no IR, no transcript, no derived text
 
 ---
 
@@ -22,16 +22,16 @@ collection_scope: test only: AAPL SEC Tier 1 full-range expansion; 10-K 10 years
 | entities | artifacts/catalog/entities.jsonl | entity_id=sec-cik-0000320193, ticker=AAPL | valid |
 | documents | artifacts/catalog/documents.jsonl | ticker=AAPL, cik=0000320193 | valid |
 | files | artifacts/catalog/files.jsonl | ticker=AAPL | valid |
-| runs | artifacts/catalog/runs.jsonl | run_id=run-20260603-aapl-sec-full-scope-test | valid |
+| runs | artifacts/catalog/runs.jsonl | run_id=run-20260603-aapl-sec-full-scope-test-v2 | valid |
 
 ## 수집 현황 요약
 | 항목 | 요청 | 새 수집 | 기존 보유 | 복구 필요 | 실패 | raw 파일 | text 추출 | 비고 |
 |---|---:|---:|---:|---:|---:|---:|---:|---|
-| SEC 10-K primary document | 10 | 9 | 1 | 0 | 0 | 10 | 0 | config 기준 10년 |
-| SEC 10-Q primary document | 12 | 11 | 1 | 0 | 0 | 12 | 0 | config 기준 12분기 |
-| SEC DEF 14A primary document | 5 | 4 | 1 | 0 | 0 | 5 | 0 | config 기준 5년 |
-| SEC 8-K Item 2.02 primary document | 12 | 11 | 1 | 0 | 0 | 12 | 0 | config 기준 12분기 |
-| SEC 8-K Item 2.02 EX-99.1 exhibit | 12 | 11 | 1 | 0 | 0 | 12 | 0 | EX-99.1 발견 시 raw 저장 |
+| SEC 10-K primary document | 10 | 0 | 10 | 0 | 0 | 10 | 0 | rerun fast path |
+| SEC 10-Q primary document | 12 | 0 | 12 | 0 | 0 | 12 | 0 | rerun fast path |
+| SEC DEF 14A primary document | 5 | 0 | 5 | 0 | 0 | 5 | 0 | rerun fast path |
+| SEC 8-K Item 2.02 primary document | 12 | 0 | 12 | 0 | 0 | 12 | 0 | rerun fast path |
+| SEC 8-K Item 2.02 EX-99.1 exhibit | 12 | 0 | 12 | 0 | 0 | 12 | 0 | rerun exhibit fast path |
 | Company IR | 0 | 0 | 0 | 0 | 0 | 0 | 0 | run_scope에서 제외 |
 | Transcript | 0 | 0 | 0 | 0 | 0 | 0 | 0 | run_scope에서 제외 |
 
@@ -126,7 +126,7 @@ collection_scope: test only: AAPL SEC Tier 1 full-range expansion; 10-K 10 years
 ## 실패 및 보류 요약
 | 항목 | 상태 | 이유 | 마지막 시도 run | 다음 조치 |
 |---|---|---|---|---|
-| SEC 확장 테스트 | success | failed=0, repair_required=0 | run-20260603-aapl-sec-full-scope-test | 추가 조치 없음 |
+| SEC 확장 테스트 | success | idempotency passed; skipped_existing=39, download-log=0 | run-20260603-aapl-sec-full-scope-test-v2 | 추가 조치 없음 |
 | IR / Transcript / derived text | skipped | 이번 run_scope에서 제외 | run-20260603-aapl-sec-full-scope-test | 별도 실행에서 수집 |
 
 ## 다음 하네스 전달 요약

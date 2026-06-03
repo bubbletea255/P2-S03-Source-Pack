@@ -56,6 +56,12 @@ QA는 대화 보고로 끝나지 않는다.
 | `fail` | 후속 하네스가 사용하면 위험함 |
 | `stopped` | User-Agent, 사람 승인, 외부 조건 등으로 QA 완료 불가 |
 
+## 표준 단계 원칙
+
+`test_collection`을 포함한 모든 run의 QA는 표준 14단계 제목과 순서를 유지한다.
+run_scope 특화 검증은 단계 제목을 바꾸지 말고 해당 표준 단계 내부의 추가 행으로 기록한다.
+run_scope 밖 항목은 생략하지 않고 `skipped_out_of_scope`로 명시한다.
+
 ## 1단계: run 범위 확인
 
 1. `run_id`가 있는지 확인한다.
@@ -217,11 +223,14 @@ Tier 1 기본 범위:
 3. `EX-99.1`은 보조 기준으로만 사용됐는가?
 4. EX-99.1 또는 관련 exhibit이 있으면 `files.jsonl.file_role: exhibit`으로 기록됐는가?
 5. Exhibit이 누락되거나 확인되지 않으면 `[확인 필요: exhibit 누락 여부]`가 남아 있는가?
+6. `run_scope` 또는 `config.md`에 포함된 exhibit의 `files.jsonl.local_path`가 없으면 `repair_required`로 표시됐는가?
+7. 과거에 수집한 적 없는 optional exhibit은 `repair_required`가 아니라 신규 파일 후보 또는 `skipped_out_of_scope`로 처리됐는가?
 
 실패 기준:
 
 - Item 2.02와 EX-99.1을 같은 기준처럼 혼동하면 `unverified` 또는 `fail`
 - 실적 발표 자료 누락을 이유 없이 생략하면 `fail`
+- `available`로 기록된 검증 대상 exhibit의 local_path가 없는데 `skipped_existing`으로 처리하면 `unverified` 또는 `fail`
 
 ## 9단계: IR 자료 검증
 
@@ -340,35 +349,59 @@ overall_status: pass | partial_pass | unverified | fail | stopped
 - 미검증:
 - 사람 승인 필요:
 
-## 자동 실패 조건
-| 조건 | 판정 | 근거 | 조치 |
-|---|---|---|---|
-
-## Catalog 구조 QA
+## 1단계: run 범위 확인
 | 기준 | 판정 | 근거 | 조치 |
 |---|---|---|---|
 
-## Catalog 관계 QA
+## 2단계: catalog JSONL 구조 검증
 | 기준 | 판정 | 근거 | 조치 |
 |---|---|---|---|
 
-## Raw/File QA
+## 3단계: schema 허용값 검증
 | 기준 | 판정 | 근거 | 조치 |
 |---|---|---|---|
 
-## Download Log QA
+## 4단계: entity 관계 검증
 | 기준 | 판정 | 근거 | 조치 |
 |---|---|---|---|
 
-## Index QA
+## 5단계: document 원장 검증
 | 기준 | 판정 | 근거 | 조치 |
 |---|---|---|---|
 
-## IR QA
+## 6단계: file 원장과 raw 파일 검증
 | 기준 | 판정 | 근거 | 조치 |
 |---|---|---|---|
 
-## Transcript QA
+## 7단계: download-log와 승격 관계 검증
+| 기준 | 판정 | 근거 | 조치 |
+|---|---|---|---|
+
+## 8단계: SEC 실적 발표 자료 검증
+| 기준 | 판정 | 근거 | 조치 |
+|---|---|---|---|
+
+## 9단계: IR 자료 검증
+| 기준 | 판정 | 근거 | 조치 |
+|---|---|---|---|
+
+## 10단계: Transcript optional 검증
+| 기준 | 판정 | 근거 | 조치 |
+|---|---|---|---|
+
+## 11단계: derived text 검증
+| 기준 | 판정 | 근거 | 조치 |
+|---|---|---|---|
+
+## 12단계: 회사별 index.md 검증
+| 기준 | 판정 | 근거 | 조치 |
+|---|---|---|---|
+
+## 13단계: 금지 내용 검증
+| 기준 | 판정 | 근거 | 조치 |
+|---|---|---|---|
+
+## 14단계: QA 결과 작성
 | 기준 | 판정 | 근거 | 조치 |
 |---|---|---|---|
 

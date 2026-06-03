@@ -97,6 +97,15 @@ SHA-256 재검증은 `partial_recheck` 또는 별도 정합성 확인 요청에�
 `repair_required`는 자동 수정이 아니다.
 기존 raw 파일 또는 catalog 관계를 덮어쓸 수 있으므로 사람 승인 후 별도 복구 절차로 처리한다.
 
+Primary/exhibit 판단 원칙:
+
+- SEC primary document는 문서 단위 fast path의 필수 파일이다.
+- `run_scope` 또는 `config.md`에 포함된 exhibit은 해당 run의 검증 대상 파일이다.
+- `files.jsonl`에 `file_status: available`로 기록된 파일의 `local_path`가 사라지면 `repair_required`로 분류한다.
+- 과거에 수집한 적 없는 optional exhibit은 `repair_required`가 아니라 신규 파일 후보로 본다.
+- `run_scope` 또는 `config.md` 밖의 exhibit 누락은 실패로 보지 않는다.
+- `repair_required`는 자동 재다운로드하지 않고 사람 확인 후 처리한다.
+
 `collection_status`별 처리:
 
 | 기존 상태 | 처리 |
@@ -273,6 +282,29 @@ artifacts/raw/sec-edgar/cik-{CIK}/accession-{ACCESSION}/
 10. exhibit 파일은 `file_role: exhibit`으로 기록한다.
 11. 실패하면 `files.jsonl`에 올리지 않고 `download-log.jsonl`, `documents.jsonl.notes`, `qa.md`에 실패 사유를 남긴다.
 
+SEC raw 다운로드 구현과 preflight 규칙:
+
+- SEC raw 파일 요청은 `config.md`의 User-Agent를 HTTP header로 명시해 보낸다.
+- 실행 모드와 관계없이 SEC 후보를 분류한 뒤 raw 다운로드가 필요한 `new_document` 또는 `retry_eligible` 후보가 1건 이상 있으면, 어떤 실행 환경과 구현 방식이든 본 다운로드 루프 전에 raw 파일 1건 preflight를 통과해야 한다.
+- 모든 후보가 `skipped_existing` 또는 `repair_required`이고 새 raw 다운로드 후보가 없으면 preflight를 실행하지 않는다.
+- preflight는 본 다운로드 루프와 같은 실행 환경, 같은 구현 방식, 같은 User-Agent/header, 같은 속도 제한으로 요청한다.
+- preflight 통과 조건은 HTTP 200, 로컬 파일 존재, `size_bytes > 0`, SHA-256 계산 성공이다.
+- preflight가 첫 번째 실제 후보 파일을 대상으로 성공했으면 그 파일은 같은 run의 정상 다운로드 attempt로 재사용할 수 있다. 별도 중복 다운로드를 만들지 않는다.
+- preflight 실패 시 본 다운로드 루프를 시작하지 않고 run `status`를 `stopped`로 기록한다. 아직 시도하지 않은 후보 문서를 `failed`로 대량 기록하지 않는다.
+- preflight 실패 때는 실제 시도한 preflight attempt만 `download-log.jsonl`에 남기고, `run-summary.md`와 `qa.md`에 `[확인 필요: SEC raw download transport failure]`를 기록한다.
+- PowerShell 실행 환경에서는 검증된 기본 방식으로 `Invoke-WebRequest -Headers @{ "User-Agent" = ... } -UseBasicParsing -OutFile {target_path}`를 사용한다.
+- 저수준 `.NET HttpClient` 또는 `WebRequest` 방식은 같은 User-Agent라도 SEC raw archive에서 403으로 차단될 수 있으므로 기본 방식으로 쓰지 않는다.
+
+대량 실패 조기 중단 규칙:
+
+- SEC submissions API는 정상인데 raw archive 다운로드 루프 도중 2건 이상 연속으로 `403 Forbidden`, User-Agent 형식 오류, client/TLS 차단처럼 같은 접근 오류가 나면 개별 문서 실패로 계속 소진하지 않는다.
+- 이 경우 collector transport 문제로 보고 raw 다운로드 루프를 즉시 중단한다.
+- 아직 시도하지 않은 후보 문서는 `failed`로 대량 기록하지 않는다.
+- 실제 시도한 attempt만 `download-log.jsonl`에 남기고, `run-summary.md`와 `qa.md`에는 `[확인 필요: SEC raw download transport failure]`를 기록한다.
+- 조기 중단 전 성공한 파일 또는 문서가 1건 이상 있으면 run `status`는 `partial_success`로 둔다.
+- 조기 중단 전 성공한 파일 또는 문서가 없으면 run `status`는 `stopped`로 둔다.
+- 다운로드 구현 또는 User-Agent/header 처리를 고친 뒤 새 run으로 재시도한다.
+
 원장 갱신 규칙:
 
 - `download-log.jsonl`은 append 전용 실행 일지다.
@@ -313,6 +345,7 @@ artifacts/raw/sec-edgar/cik-{CIK}/accession-{ACCESSION}/
 - `items`에는 `2.02`, `9.01` 등 SEC item을 배열로 기록한다.
 - primary document와 관련 exhibit을 raw로 저장한다.
 - EX-99.1이 있으면 `files.jsonl`에 `file_role: exhibit`으로 기록한다.
+- EX-99.1이 `run_scope` 또는 `config.md`에 포함되고 이미 `files.jsonl`에 `available`로 기록돼 있으면 fast path 검증 대상이다.
 - EX-99.1이 없거나 일부 exhibit이 누락되면 `[확인 필요: exhibit 누락 여부]`를 남긴다.
 - Item 2.02와 EX-99.1을 같은 기준으로 혼동하지 않는다.
 

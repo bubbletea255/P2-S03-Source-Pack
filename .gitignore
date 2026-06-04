@@ -2,6 +2,21 @@
 docs/대화 원본/
 docs/대화 요약/
 
+# Local secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.*
+credentials.*
+
+# Local tool settings
+.claude/settings.local.json
+.codex/*.local.toml
+
 # Source Pack raw 원자료 및 텍스트 추출물 (대용량 파일, git 제외)
 artifacts/raw/
 artifacts/derived/

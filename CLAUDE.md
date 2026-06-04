@@ -73,3 +73,4 @@ SEC 공시, IR 자료, 가능한 경우 transcript 원문을 수집해 raw 파�
 | 2026-06-03 | Source Pack v9 SEC raw preflight 필수화(환경 무관, new_document/retry_eligible 1건 이상 시), qa.md 출력 템플릿 14단계 4열 형식으로 교체, exhibit/repair 판단 원칙 6개 추가, AAPL SEC Tier 1 전체 범위 수집 완료(39문서/51파일), repair_required 전체 사이클 검증(감지→복구→정상복귀) |
 | 2026-06-03 | Source Pack v10 AAPL SEC Tier 1 수집 완료 — 전체 범위 idempotency 통과(skipped_existing=39, download-log 0건), 9단계 테스트 시퀀스 완성 |
 | 2026-06-03 | Source Pack v11 장애 진단 순서 보강 — source-pack-runbook.md에 실행 후 사후 진단 섹션 신규 추가(보는 파일 순서 5단계, 상태값 의미·위치·행동 테이블) |
+| 2026-06-04 | Source Pack v12 SEC 수집 안정화 완료 롤백 지점 — .gitignore 보안 강화(credentials/대화기록 제외), 대화 파일 git 추적 해제, docs 보강(observability template/handoff/IR 수집 기준 PDF) |

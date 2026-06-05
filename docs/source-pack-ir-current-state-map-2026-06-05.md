@@ -94,7 +94,9 @@ harness/procedures/source-pack-ir-collector.md
 - IR preflight
 - IR `document_id` 규칙
 - IR `document_type` 선택과 확장 원칙
+- IR taxonomy 후보 원장 확인/기록 절차
 - earnings-related SEC overlap 처리
+- SEC-IR overlap/integrity notes 상태 기록 절차
 - pilot 단계와 production 단계 구분
 - Company IR raw 저장 경로
 - 보안 제품 격리 파일 처리 원칙
@@ -128,11 +130,18 @@ ir-financial-supplement
 IR document_type은 controlled but extensible vocabulary다.
 ```
 
+후보 관찰 원장:
+
+```text
+artifacts/catalog/ir-taxonomy-candidates.jsonl
+```
+
 의미:
 
 - 현재 허용값은 작게 유지한다.
 - 새 IR type을 자동으로 늘리지 않는다.
 - 새 공식 IR 자료 유형이 반복 발견되면 preflight 또는 run-summary에 `candidate_document_type`으로 기록한다.
+- 반복 후보는 `ir-taxonomy-candidates.jsonl`에 누적 관찰한다.
 - 사용자 승인 후 schema에 추가한다.
 - 새 type을 추가할 때 의미, 제외 기준, 기본 `file_role`, earnings-related 여부를 함께 정한다.
 
@@ -149,6 +158,7 @@ docs/source-pack-observability-template.md
 현재 상태:
 
 - 선택 템플릿이다.
+- run-summary schema와 runbook에 선택 섹션으로 반영됐다.
 - QA 필수 항목이 아니다.
 - 누락돼도 run 실패나 QA 실패로 보지 않는다.
 - 일부 run-summary에서 운영 관찰 메모를 남길 수 있다.
@@ -164,8 +174,8 @@ docs/source-pack-observability-template.md
 현 단계에서의 의미:
 
 ```text
-관측 가능성은 "작게 메모할 수 있는 구조"만 있다.
-아직 자동화된 observability 시스템은 아니다.
+관측 가능성은 "run-summary에 작게 메모할 수 있는 선택 구조"까지 harness에 들어왔다.
+아직 자동 측정 observability 시스템은 아니다.
 ```
 
 ### 5.2 SEC-IR 중복/무결성 자동화
@@ -178,10 +188,13 @@ docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md
 
 현재 적용된 것:
 
+- IR collector/runbook에 notes 기반 최소 overlap/integrity 상태 기록 절차 반영
 - AAPL/APP catalog notes에 SEC-IR overlap 상태 기록
 - APP SEC-IR overlap recheck 수행
 - APP `future_recheck_required` 해소
+- `sec_equivalent_not_found_in_scoped_8k` 상태 반영
 - NTRA 보안 격리 파일은 운영 catalog 승격 금지로 처리
+- `security_quarantined` 처리 원칙을 IR collector에 명시
 
 아직 없는 것:
 
@@ -190,14 +203,14 @@ docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md
 - 정기 integrity check 스크립트
 - `next_recheck_after` 만료 항목 자동 탐지
 - 전체 catalog local_path/size/hash 자동 audit
-- SEC 수집 직후 자동 post-SEC overlap check
-- IR 수집 직후 자동 post-IR overlap check
+- 전체 catalog 대상 자동 post-SEC overlap scan
+- 전체 catalog 대상 자동 post-IR overlap scan
 
 현 단계에서의 의미:
 
 ```text
-중복/무결성 기준은 설계와 실제 사례 적용까지는 했다.
-하지만 별도 자동화 원장이나 integrity checker는 아직 만들지 않았다.
+중복/무결성 기준은 IR collector/runbook의 최소 notes 절차까지 들어왔다.
+하지만 별도 관계 원장이나 정기 integrity checker는 아직 만들지 않았다.
 ```
 
 ## 6. 주요 설계 문서 지도
@@ -486,6 +499,7 @@ APP는 SEC-IR overlap notes를 실제로 갱신하고 future recheck를 닫은 �
 ```text
 새 type은 발견 즉시 추가하지 않는다.
 반복 관찰되고 기존 type으로 처리하면 의미가 왜곡될 때만 사용자 승인 후 추가한다.
+반복 후보는 ir-taxonomy-candidates.jsonl에 누적해 다음 checkpoint 근거로 쓴다.
 ```
 
 ## 9. 현재 적용된 중복 처리 상태
@@ -508,6 +522,7 @@ APP는 SEC-IR overlap notes를 실제로 갱신하고 future recheck를 닫은 �
 - overlap status 정식 필드
 
 현재는 모두 `notes` 문자열에 기록한다.
+상태값과 notes 권장 패턴은 `docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md`를 기준으로 한다.
 
 ## 10. 나중에 할 수 있는 자동화 후보
 
@@ -523,7 +538,8 @@ APP는 SEC-IR overlap notes를 실제로 갱신하고 future recheck를 닫은 �
 추천 다음 행동:
 
 ```text
-새 회사 1~2개를 더 preflight해서 실제 IR 자료 유형을 본 뒤 결정한다.
+새 회사 1~2개를 더 preflight해서 실제 IR 자료 유형을 보고,
+필요하면 ir-taxonomy-candidates.jsonl에 후보를 누적한다.
 ```
 
 ### 10.2 관측 가능성
@@ -537,7 +553,7 @@ APP는 SEC-IR overlap notes를 실제로 갱신하고 future recheck를 닫은 �
 추천 다음 행동:
 
 ```text
-아직 자동화하지 말고, 2~3회 더 pilot/run-summary에 선택 메모로 쌓아본다.
+자동화하지 말고, 2~3회 더 pilot/run-summary에 선택 메모로 쌓아본다.
 ```
 
 ### 10.3 중복/무결성 자동화
@@ -615,7 +631,7 @@ artifacts/catalog/files.jsonl
 추천 방식:
 
 ```text
-새 회사 1개 IR preflight → candidate 관찰 → pilot 여부 결정 → taxonomy checkpoint 업데이트
+새 회사 1개 IR preflight → candidate 관찰 → 후보 원장 기록 여부 결정 → pilot 여부 결정
 ```
 
 ### 12.2 그다음 관측 가능성
@@ -707,9 +723,9 @@ SEC-IR 중복/무결성 자동화를 언제 어떻게 도입할지 논의해줘.
 ```text
 작동 가능한 최소 IR 수집 구조: 있음
 실제 pilot 검증: AAPL/APP 성공, NTRA 보안 격리 사례 확보
-taxonomy 확장성: harness에 원칙 반영, 자동 확장 아님
-관측 가능성: docs 템플릿과 선택 메모 수준
-SEC-IR 중복 처리: notes 기반 사례 적용, 자동화는 아직 없음
+taxonomy 확장성: 후보 원장과 collector 연동 반영, 자동 schema 확장 아님
+관측 가능성: run-summary schema/runbook에 선택 섹션 반영, 자동 측정 아님
+SEC-IR 중복 처리: IR collector/runbook에 notes 기반 최소 절차 반영, 관계 원장은 아직 없음
 무결성 점검: 기본 QA는 있음, 정기 integrity checker는 아직 없음
 ```
 
@@ -718,7 +734,7 @@ SEC-IR 중복 처리: notes 기반 사례 적용, 자동화는 아직 없음
 추천 순서:
 
 ```text
-1. taxonomy 확장을 위한 새 IR preflight
-2. 관측 가능성 최소 적용 여부 논의
-3. 중복/무결성 자동화 도입 시점 논의
+1. 새 회사 IR preflight/pilot으로 v1 절차를 실제 적용
+2. 후보 원장과 run-summary 관측 메모가 잘 쌓이는지 확인
+3. 운영 ticker가 늘어나면 관계 원장/정기 integrity checker 도입 논의
 ```

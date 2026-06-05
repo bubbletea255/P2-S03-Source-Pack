@@ -29,6 +29,11 @@ Source Pack은 원자료 수집형 하네스이므로 이 runbook은 분석, 요
 10. `watchlist.md`
 11. `artifacts/README.md`
 
+IR 자료가 요청 범위에 포함되면 아래 파일도 읽는다.
+
+- `harness/procedures/source-pack-ir-collector.md`
+- `artifacts/catalog/ir-taxonomy-candidates.jsonl`이 있으면 기존 후보를 확인한다.
+
 파일이 없으면 임의로 추정하지 말고 해당 단계의 실패 처리 규칙을 따른다.
 
 ## 0. 요청 분류
@@ -95,7 +100,8 @@ transcript 원문 수집 여부:
 3. `artifacts/catalog/files.jsonl`에서 raw 파일 승격 기록을 확인한다.
 4. `artifacts/companies/{TICKER}/index.md`가 있는지 확인한다.
 5. `artifacts/runs/`에서 최근 실행과 실패 기록을 확인한다.
-6. transcript 요청이 있으면 최근 90일 내 동일 ticker/quarter/source 실패 기록을 확인한다.
+6. IR 요청이 있으면 `artifacts/catalog/ir-taxonomy-candidates.jsonl`에서 같은 후보 `document_type` 관찰 이력을 확인한다.
+7. transcript 요청이 있으면 최근 90일 내 동일 ticker/quarter/source 실패 기록을 확인한다.
 
 기존 link-only 결과나 예전 경로는 운영 입력으로 사용하지 않는다.
 운영 자료가 필요하면 새 raw/catalog 구조로 재수집한다.
@@ -112,12 +118,19 @@ transcript 원문 수집 여부:
 
 요청 범위에 없는 source는 수집하지 않는다.
 
+IR 수집 또는 IR 부분 재검토가 끝나면 `source-pack-ir-collector.md`의 완료 전 점검을 수행한다.
+이때 새 IR 유형 후보는 `artifacts/catalog/ir-taxonomy-candidates.jsonl`에 notes 기반 후보 관찰로 기록하고, schema는 자동 변경하지 않는다.
+earnings-related IR 자료는 같은 ticker 범위에서 SEC overlap 상태를 확인해 `documents.jsonl`, `files.jsonl`, run-summary, QA의 notes에 기록한다.
+SEC-only run에서는 이번 규칙 추가로 기존 SEC 수집 절차를 변경하지 않는다.
+다만 사용자가 승인한 `run_scope`가 SEC-IR overlap recheck를 포함하면, 방금 수집한 SEC file hash를 동일 ticker의 기존 IR records와 비교하고 결과를 notes에 남긴다.
+
 Collector는 아래 산출물을 만들거나 갱신해야 한다.
 
 - `artifacts/companies/{TICKER}/index.md`
 - `artifacts/catalog/entities.jsonl`
 - `artifacts/catalog/documents.jsonl`
 - `artifacts/catalog/files.jsonl`
+- 조건부: `artifacts/catalog/ir-taxonomy-candidates.jsonl`
 - `artifacts/runs/{run-id}/download-log.jsonl`
 - `artifacts/runs/{run-id}/run-summary.md`
 - 조건부: `artifacts/raw/...`
@@ -179,6 +192,11 @@ QA 상태는 `pass`, `partial_pass`, `unverified`, `fail`, `stopped` 중 하나�
 - QA 상태
 - 다음 하네스가 읽어야 할 파일
 - 사람 확인이 필요한 항목
+
+가능한 경우 run-summary 마지막에 `선택 섹션: 하네스 운영 관찰`을 남긴다.
+이 섹션은 지침 파일 수, 지침 라인 수 추정, 병목 메모, 감량 후보를 기록하는 선택 메모다.
+비어 있거나 누락되어도 QA 실패 또는 run 실패로 보지 않는다.
+정확한 토큰 수 계측이나 자동 스크립트 실행은 요구하지 않는다.
 
 대화에만 남기면 안 되는 내용은 반드시 파일에도 기록한다.
 

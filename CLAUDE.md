@@ -75,3 +75,4 @@ SEC 공시, IR 자료, 가능한 경우 transcript 원문을 수집해 raw 파�
 | 2026-06-03 | Source Pack v11 장애 진단 순서 보강 — source-pack-runbook.md에 실행 후 사후 진단 섹션 신규 추가(보는 파일 순서 5단계, 상태값 의미·위치·행동 테이블) |
 | 2026-06-04 | Source Pack v12 SEC 수집 안정화 완료 롤백 지점 — .gitignore 보안 강화(credentials/대화기록 제외), 대화 파일 git 추적 해제, docs 보강(observability template/handoff/IR 수집 기준 PDF) |
 | 2026-06-05 | Source Pack v13 IR 파이프라인 파일럿 완성 롤백 지점 — AAPL/APP IR pilot 완료(ir-earnings-release/ir-financial-supplement 2종), APP SEC-IR overlap recheck 완료(sec_equivalent_not_found_in_scoped_8k 수정), SEC-IR dedup·taxonomy·무결성 설계 4편, source-pack-ir-collector.md 신규, catalog.schema IR 운영 원칙 추가 |
+| 2026-06-05 | Source Pack v14 IR 내실 보강 v1 완료 롤백 지점 — 관측가능성 run-summary schema/runbook 반영, ir-taxonomy-candidates.jsonl 신규(collector 절차 연동·승인 기준 3종), SEC-IR overlap 9개 상태값·security_quarantined·sec_equivalent_not_found_in_scoped_8k harness 최소 승격, dedup 설계 문서 harness 반영 상태 갱신 |

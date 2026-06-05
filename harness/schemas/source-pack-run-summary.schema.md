@@ -37,6 +37,17 @@
 
 ## 다음 단계
 - 
+
+## 선택 섹션: 하네스 운영 관찰
+
+이 섹션은 하네스 감량과 운영 개선을 위한 선택 메모다.
+비어 있거나 누락되어도 QA 실패 또는 run 실패로 보지 않는다.
+정확한 토큰 계측이 아니라, 다음 개선 판단을 위한 근사 관찰값으로 기록한다.
+
+- instructions_files_consulted:
+- instructions_lines_consulted_estimate:
+- bottleneck_note:
+- trim_candidate:
 ```
 
 ## Incremental Sync 카운트 정의
@@ -83,3 +94,25 @@
 | `stopped` | 중단 |
 
 `catalog_status`가 `fail`, `unverified`, `[확인 필요:]`인 자료는 다음 하네스의 확정 입력으로 쓰지 않는다고 명시한다.
+
+## 선택 섹션: 하네스 운영 관찰
+
+`하네스 운영 관찰`은 Source Pack 하네스 자체를 나중에 감량하고 개선하기 위한 선택 섹션이다.
+수집 품질 보증 항목이 아니며 QA 점수나 run 성공/실패 판단에 포함하지 않는다.
+
+권장 필드:
+
+| 필드 | 의미 |
+|---|---|
+| `instructions_files_consulted` | 이번 실행에서 주요하게 참고한 지침 파일 수 |
+| `instructions_lines_consulted_estimate` | 참고한 지침 라인 수의 대략값 |
+| `bottleneck_note` | 오래 걸렸거나 무겁게 느껴진 구간 |
+| `trim_candidate` | 나중에 줄이거나 자동화할 후보 |
+
+작성 원칙:
+
+- 가능한 경우 run-summary 마지막에 붙인다.
+- 정확한 토큰 수를 추정해 쓰지 않는다.
+- 숫자는 대략값 또는 `unknown`으로 둘 수 있다.
+- 비어 있거나 누락되어도 QA 실패, run 실패, catalog 실패로 보지 않는다.
+- 자동 측정 스크립트는 이 schema의 요구사항이 아니다.

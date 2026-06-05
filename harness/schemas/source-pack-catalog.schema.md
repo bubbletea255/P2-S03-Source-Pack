@@ -8,6 +8,7 @@
 - `artifacts/catalog/documents.jsonl`
 - `artifacts/catalog/files.jsonl`
 - `artifacts/catalog/runs.jsonl`
+- `artifacts/catalog/ir-taxonomy-candidates.jsonl`
 
 Source Pack catalog는 링크 북마크가 아니다.  
 Source Pack catalog는 로컬에 저장된 원자료와 그 메타데이터의 원장이다.
@@ -52,6 +53,7 @@ Source Pack catalog는 로컬에 저장된 원자료와 그 메타데이터의 �
 | `files.jsonl` | 실제 로컬 파일 단위 확정 원장 | 파일 존재와 경로의 기준 |
 | `entities.jsonl` | 회사/entity 원장 | ticker, CIK, 회사 메타데이터 기준 |
 | `runs.jsonl` | 실행 이력 기계용 인덱스 | 실행 delta와 run 요약 위치 기준 |
+| `ir-taxonomy-candidates.jsonl` | IR `document_type` 후보 관찰 원장 | schema 확장 검토용 보조 원장 |
 | `companies/{TICKER}/index.md` | 사람용 회사별 지도 | catalog와 충돌하면 catalog 우선 |
 
 `companies/{TICKER}/sources.jsonl`은 만들지 않는다.
@@ -435,6 +437,83 @@ artifacts/catalog/runs.jsonl
 ```json
 {"run_id":"run-20260602-aapl-test","target":"AAPL","run_mode":"test_collection","run_scope":"test only: latest AAPL 10-K primary SEC filing, no exhibits, no IR, no transcript","started_at":"2026-06-02T10:00:00+09:00","ended_at":"2026-06-02T10:03:00+09:00","status":"success","collected_new":1,"skipped_existing":0,"repair_required":0,"failed":0,"files_collected_new":1,"run_summary_path":"artifacts/runs/run-20260602-aapl-test/run-summary.md","qa_path":"artifacts/runs/run-20260602-aapl-test/qa.md"}
 ```
+
+## `ir-taxonomy-candidates.jsonl`
+
+IR `document_type` 후보 관찰 원장이다.
+
+경로:
+
+```text
+artifacts/catalog/ir-taxonomy-candidates.jsonl
+```
+
+역할:
+
+- 새 IR 자료 유형 후보를 흩어진 run-summary 메모가 아니라 한 곳에 남긴다.
+- 같은 후보가 여러 ticker 또는 여러 run에서 반복되는지 확인한다.
+- 사용자에게 schema 확장 승인 요청을 할 근거를 제공한다.
+
+중요:
+
+```text
+이 원장은 schema를 자동 변경하지 않는다.
+새 document_type 추가는 사용자 승인 후 별도 schema 수정으로만 진행한다.
+```
+
+필수 필드:
+
+| 필드 | 타입 | 설명 | 예시 |
+|---|---|---|---|
+| `candidate_id` | string | 후보 관찰 고유 ID | `candidate:ir-investor-conference-presentation:ntra:2026-06-04:jpm-healthcare` |
+| `candidate_document_type` | string | 제안된 IR document_type 후보 | `ir-investor-conference-presentation` |
+| `ticker` | string | 관찰된 회사 티커 | `NTRA` |
+| `entity_id` | string or null | 연결 entity | `sec-cik-...` |
+| `observed_at` | string | 관찰일 | `2026-06-05` |
+| `observed_in_run_id` | string or null | 관찰한 run 또는 preflight | `run-20260604-ntra-ir-pilot` |
+| `source_url` | string or null | 후보를 발견한 원출처 URL | `https://...` |
+| `evidence_title` | string | 관찰된 자료 제목 또는 설명 | `44th Annual J.P. Morgan Healthcare Conference presentation` |
+| `handled_as` | string or null | 현재 schema 안에서 임시 처리한 document_type | `ir-deck` |
+| `reason` | string | 후보로 본 이유 | `conference presentation이 반복 관찰될 수 있음` |
+| `status` | string | 후보 상태 | `observed` |
+
+선택 필드:
+
+| 필드 | 타입 | 설명 |
+|---|---|---|
+| `evidence_count_hint` | number or null | 현재 run에서 파악한 대략 관찰 수 |
+| `distinct_ticker_count_hint` | number or null | 현재 run에서 파악한 대략 ticker 수 |
+| `review_trigger_reason` | string or null | 사용자 승인 요청을 제안하는 이유 |
+| `recommended_action` | string or null | `keep_observing`, `request_user_review`, `merge_into_existing_type`, `reject_candidate` 등 |
+| `notes` | string or null | 수동 메모 |
+
+허용 값:
+
+| 필드 | 값 |
+|---|---|
+| `status` | `observed`, `needs_review`, `approved`, `rejected`, `merged` |
+| `recommended_action` | `keep_observing`, `request_user_review`, `merge_into_existing_type`, `reject_candidate`, null |
+
+Upsert key:
+
+```text
+candidate_id
+```
+
+권장 `candidate_id`:
+
+```text
+candidate:{candidate_document_type}:{ticker-lower}:{YYYY-MM-DD}:{short-slug}
+```
+
+사용자 승인 요청 기준:
+
+- 같은 `candidate_document_type`이 3개 이상 distinct ticker에서 관찰됐다.
+- 같은 `candidate_document_type`이 5건 이상 관찰됐다.
+- 기존 `document_type`으로 처리하면 의미 왜곡이 반복된다고 QA 또는 run-summary가 2회 이상 기록했다.
+
+이 기준에 도달하면 run-summary와 QA에 `[사용자 승인 필요: IR document_type 승격 검토]`를 남긴다.
+그래도 schema는 자동으로 변경하지 않는다.
 
 ## 관련 실행 로그: `download-log.jsonl`
 

@@ -3,8 +3,8 @@
 - 작성일: 2026-06-05
 - 대상 하네스: P2-S03 Source Pack
 - 주제: SEC/IR 중복 처리, canonical source, raw 파일 무결성, 재확인 전략
-- 상태: 설계 메모
-- 적용 전제: 아직 `harness/` 운영 규칙에는 반영하지 않음
+- 상태: 설계 메모, 일부 최소 절차는 `harness/`에 반영됨
+- 적용 전제: notes 기반 overlap/integrity 상태 기록은 `source-pack-ir-collector.md`에 최소 반영됐고, 별도 관계 원장과 정기 audit 자동화는 아직 반영하지 않음
 
 이 문서는 SEC 자료와 Company IR 자료가 서로 중복될 때 어떻게 처리할지, 그리고 장기적으로 raw 파일이 삭제되거나 잘못 연결되는 위험을 어떻게 줄일지 정리하기 위한 설계 메모다.
 
@@ -118,6 +118,7 @@ HTML/PDF 포맷 차이, 회사 IR 버전과 SEC exhibit 버전 차이, wrapper �
 |---|---|---|
 | `same_hash_as_sec` | SEC 파일과 hash가 동일 | company-ir raw 중복 승격하지 않음 |
 | `different_hash_from_sec_candidate` | 의미상 SEC 후보와 겹치지만 hash는 다름 | 별도 raw 보관 가능, notes에 관계 기록 |
+| `sec_equivalent_not_found_in_scoped_8k` | 제한 확인 범위 안에서 해당 IR 유형에 대응하는 SEC exhibit가 없음 | IR raw를 company-ir canonical으로 보관, 확인 범위 기록 |
 | `not_found_in_local_catalog` | 현재 로컬 catalog/raw 안에서는 SEC 후보 없음 | IR raw 보관 가능, 나중에 SEC 수집 시 재확인 |
 | `sec_candidate_unverified` | 후보는 있으나 확인 불충분 | 사람 확인 또는 다음 QA 대상으로 남김 |
 | `ir_native_no_sec_overlap_required` | IR-native 자료라 SEC overlap 기본 검사 불필요 | 바로 IR raw 보관 가능 |
@@ -471,6 +472,19 @@ overlap_status: ir_native_no_sec_overlap_required; canonical_source: company-ir;
 - investor conference deck, investor day deck처럼 SEC 중복 가능성이 낮은 IR-native 자료다.
 - 명백한 SEC 후보가 발견되지 않는 한 SEC hash 비교를 필수로 요구하지 않는다.
 
+### 12.4.1 제한 확인 범위 안에 대응 SEC exhibit가 없는 경우
+
+```text
+overlap_status: sec_equivalent_not_found_in_scoped_8k; canonical_source: company-ir; exact_hash_match: false; confidence: low; future_recheck_required: false
+```
+
+의미:
+
+- 같은 실적 8-K 안에 SEC EX-99.1 등은 있으나, 해당 IR 자료 유형에 대응하는 별도 SEC exhibit가 없다.
+- 예: IR financial supplement PDF를 확인했지만 scoped 8-K 안에는 earnings press release EX-99.1만 있고 financial supplement/update exhibit는 없는 경우.
+- 이 상태는 `different_hash_from_sec_candidate`와 다르다. SEC 후보가 있는데 hash가 다른 것이 아니라, 해당 유형의 SEC equivalent를 찾지 못한 것이다.
+- 확인 범위는 `overlap_check_scope`에 반드시 남긴다.
+
 ### 12.5 보안 제품이 격리한 경우
 
 ```text
@@ -531,6 +545,31 @@ source_label: Financial Update; handled_as: ir-financial-supplement; overlap_sta
 ```text
 source_label: Financial Update; handled_as: ir-financial-supplement; sec_overlap: not_found_in_local_catalog; exact_hash_match: false; overlap_check_scope: existing_local_catalog_files_raw_only; earnings_related: true; future_sec_overlap_check_required_if_app_sec_collected
 ```
+
+### 13.3 APP SEC-IR recheck 이후 보정
+
+후속 제한 재확인:
+
+```text
+run_id: run-20260605-app-sec-ir-overlap-recheck
+scope: APP FY2026 Q1 8-K Item 2.02 / EX-99.1 candidate only
+```
+
+확인 결과:
+
+- earnings release HTML은 SEC EX-99.1과 의미상 후보이나 hash가 다르다.
+- financial update PDF는 scoped 8-K 안에 대응 SEC financial supplement/update exhibit가 없다.
+
+따라서 financial update PDF에는 아래 상태가 더 정확하다.
+
+```text
+source_label: Financial Update; handled_as: ir-financial-supplement; overlap_status: sec_equivalent_not_found_in_scoped_8k; canonical_source: company-ir; exact_hash_match: false; sec_separate_financial_update_exhibit: not_found_in_scoped_8k; future_recheck_required: false
+```
+
+주의:
+
+- EX-99.1 earnings press release HTML은 financial supplement PDF의 의미적 대응 후보가 아니다.
+- 대응 SEC exhibit가 없으면 `different_hash_from_sec_candidate`가 아니라 `sec_equivalent_not_found_in_scoped_8k`를 사용한다.
 
 ## 14. 단기 적용안
 

@@ -1,7 +1,7 @@
 ﻿# Source Pack - AAPL (Apple Inc.)
 
-last_updated: 2026-06-03
-last_run_id: run-20260603-aapl-sec-full-scope-test-v2
+last_updated: 2026-06-04
+last_run_id: run-20260604-aapl-ir-pilot
 collection_mode: test_collection
 catalog_status: valid
 ticker: AAPL
@@ -12,7 +12,7 @@ sector: Electronic Computers
 fiscal_year_end: [확인 필요: Apple fiscal year end varies; use documents.period_end for filing-level matching]
 ir_site: https://investor.apple.com/
 source_priority: SEC EDGAR -> Company IR -> Transcript optional -> manual check
-collection_scope: test only: rerun AAPL SEC Tier 1 full-range scope; verify skipped_existing for 10-K 10 years, 10-Q 12 quarters, DEF 14A 5 years, 8-K Item 2.02 12 quarters and existing EX-99.1 exhibits; no downloads, no IR, no transcript, no derived text
+collection_scope: SEC Tier 1 full-range test records retained; IR pilot added AAPL FY2026 Q2 earnings release HTML and consolidated financial statements PDF; no new SEC download, no SEC filings page harvesting, no webcast/audio, no transcript, no derived text
 
 ---
 
@@ -22,7 +22,7 @@ collection_scope: test only: rerun AAPL SEC Tier 1 full-range scope; verify skip
 | entities | artifacts/catalog/entities.jsonl | entity_id=sec-cik-0000320193, ticker=AAPL | valid |
 | documents | artifacts/catalog/documents.jsonl | ticker=AAPL, cik=0000320193 | valid |
 | files | artifacts/catalog/files.jsonl | ticker=AAPL | valid |
-| runs | artifacts/catalog/runs.jsonl | run_id=run-20260603-aapl-sec-full-scope-test-v2 | valid |
+| runs | artifacts/catalog/runs.jsonl | run_id=run-20260604-aapl-ir-pilot | valid |
 
 ## 수집 현황 요약
 | 항목 | 요청 | 새 수집 | 기존 보유 | 복구 필요 | 실패 | raw 파일 | text 추출 | 비고 |
@@ -32,7 +32,7 @@ collection_scope: test only: rerun AAPL SEC Tier 1 full-range scope; verify skip
 | SEC DEF 14A primary document | 5 | 0 | 5 | 0 | 0 | 5 | 0 | rerun fast path |
 | SEC 8-K Item 2.02 primary document | 12 | 0 | 12 | 0 | 0 | 12 | 0 | rerun fast path |
 | SEC 8-K Item 2.02 EX-99.1 exhibit | 12 | 0 | 12 | 0 | 0 | 12 | 0 | rerun exhibit fast path |
-| Company IR | 0 | 0 | 0 | 0 | 0 | 0 | 0 | run_scope에서 제외 |
+| Company IR | 2 | 2 | 0 | 0 | 0 | 2 | 0 | FY2026 Q2 IR pilot; sec_overlap: likely with SEC 8-K/EX-99.1 |
 | Transcript | 0 | 0 | 0 | 0 | 0 | 0 | 0 | run_scope에서 제외 |
 
 ## SEC 메타데이터
@@ -106,7 +106,8 @@ collection_scope: test only: rerun AAPL SEC Tier 1 full-range scope; verify skip
 ## IR 자료
 | 날짜 | 제목 | document_id | raw/text 경로 | 상태 | 비고 |
 |---|---|---|---|---|---|
-| - | - | - | - | skipped | run_scope에서 제외 |
+| 2026-04-30 | Apple reports second quarter results | ir-aapl-earnings-release-fy2026-q2 | raw: artifacts/raw/company-ir/AAPL/2026-04-30_fy2026-q2-earnings-release | collected | sec_overlap: likely; related SEC 8-K/EX-99.1; exact_hash_match=false |
+| 2026-04-30 | FY26 Q2 Consolidated Financial Statements | ir-aapl-financial-supplement-fy2026-q2 | raw: artifacts/raw/company-ir/AAPL/2026-04-30_fy2026-q2-financial-supplement | collected | sec_overlap: likely; related SEC 8-K/EX-99.1; exact_hash_match=false |
 
 ## 실적 발표 대본 원문 (Earnings Transcript, optional)
 | 분기 | 출처 | document_id | raw/text 경로 | 상태 | 비고 |
@@ -127,14 +128,15 @@ collection_scope: test only: rerun AAPL SEC Tier 1 full-range scope; verify skip
 | 항목 | 상태 | 이유 | 마지막 시도 run | 다음 조치 |
 |---|---|---|---|---|
 | SEC 확장 테스트 | success | idempotency passed; skipped_existing=39, download-log=0 | run-20260603-aapl-sec-full-scope-test-v2 | 추가 조치 없음 |
-| IR / Transcript / derived text | skipped | 이번 run_scope에서 제외 | run-20260603-aapl-sec-full-scope-test | 별도 실행에서 수집 |
+| IR pilot | success | FY2026 Q2 company-ir raw 2건을 catalog/index에 반영; SEC overlap likely 기록 | run-20260604-aapl-ir-pilot | 추가 조치 없음 |
+| Transcript / derived text | skipped | 이번 run_scope에서 제외 | run-20260604-aapl-ir-pilot | 별도 실행에서 수집 |
 
 ## 다음 하네스 전달 요약
-- Industry Primer가 먼저 읽을 자료: artifacts/catalog/documents.jsonl, artifacts/catalog/files.jsonl의 SEC 10-K/10-Q/DEF 14A/8-K records
+- Industry Primer가 먼저 읽을 자료: artifacts/catalog/documents.jsonl, artifacts/catalog/files.jsonl의 SEC 10-K/10-Q/DEF 14A/8-K records와 company-ir FY2026 Q2 records
 - Value Chain 하네스가 먼저 읽을 자료: SEC 10-K raw primary files
 - Business Model 하네스가 먼저 읽을 자료: SEC 10-K raw primary files와 DEF 14A raw primary files
 - Market/Share 하네스가 먼저 읽을 자료: SEC 10-K raw primary files
 - Competition 하네스가 먼저 읽을 자료: SEC 10-K raw primary files
 - Financial Statement 하네스가 먼저 읽을 자료: SEC 10-K/10-Q raw primary files
 - Transcript 하네스가 참고할 원문: 이번 run에서는 transcript 원문 미수집
-- 확인 필요: IR 자료와 transcript는 이번 SEC 확장 test_collection 범위 밖
+- 확인 필요: transcript와 derived text는 이번 IR pilot 범위 밖

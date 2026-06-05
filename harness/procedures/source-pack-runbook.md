@@ -102,7 +102,15 @@ transcript 원문 수집 여부:
 
 ## 4. 티커별 실행
 
-각 티커마다 `harness/procedures/source-pack-collector.md`를 따른다.
+각 티커마다 승인된 `run_scope`와 요청 범위를 기준으로 source별 절차를 순차 실행한다.
+
+| 요청 범위 | 따를 절차 |
+|---|---|
+| SEC 수집 | `harness/procedures/source-pack-collector.md` |
+| IR 수집 | `harness/procedures/source-pack-ir-collector.md` |
+| SEC + IR 수집 | 승인된 `run_scope` 기준으로 SEC 절차를 먼저 실행한 뒤 IR 절차를 순차 실행 |
+
+요청 범위에 없는 source는 수집하지 않는다.
 
 Collector는 아래 산출물을 만들거나 갱신해야 한다.
 

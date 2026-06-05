@@ -89,13 +89,14 @@ sec:0000320193:0000320193-24-000123:10-k
 IR 문서:
 
 ```text
-ir:{ticker}:{date}:{slug}
+ir-{ticker}-{document_type_slug}-{period_or_date}
 ```
 
 예:
 
 ```text
-ir:AAPL:2025-09-09:iphone-event-presentation
+ir-aapl-earnings-release-fy2026-q2
+ir-aapl-financial-supplement-fy2026-q2
 ```
 
 Transcript:
@@ -248,7 +249,7 @@ IR/transcript 선택 필드:
 | 필드 | 값 |
 |---|---|
 | `source_type` | `sec-edgar`, `company-ir`, `transcripts`, `industry-source`, `manual` |
-| `document_type` | `10-K`, `10-Q`, `DEF 14A`, `8-K`, `transcript`, `ir-deck`, `industry-source`, `other` |
+| `document_type` | `10-K`, `10-Q`, `DEF 14A`, `8-K`, `transcript`, `ir-deck`, `ir-earnings-release`, `ir-financial-supplement`, `industry-source`, `other` |
 | `collection_status` | `pending`, `collected`, `failed`, `skipped` |
 | `text_status` | `pending`, `extracted`, `failed`, `not_applicable`, null |
 
@@ -262,8 +263,18 @@ IR/transcript 선택 필드:
 | `8-K` | Current Report |
 | `transcript` | Earnings Call Transcript |
 | `ir-deck` | IR Presentation |
+| `ir-earnings-release` | 회사 IR 또는 Newsroom의 공식 실적 발표 자료 |
+| `ir-financial-supplement` | 회사 IR 또는 Newsroom의 실적 관련 재무 보충자료 |
 | `industry-source` | 산업/경쟁 자료 |
 | `other` | 기타 |
+
+IR `document_type` 운영 원칙:
+
+- IR `document_type`은 controlled but extensible vocabulary다.
+- 새 IR 자료 유형을 기존 값에 억지로 넣지 않는다.
+- 새 공식 IR 자료 유형이 반복 발견되면 preflight 또는 run-summary에 `candidate_document_type`으로 기록하고, 사용자 승인 후 schema에 추가한다.
+- 새 IR `document_type`을 추가할 때 의미, 제외 기준, 기본 `file_role`, earnings-related 여부를 함께 정한다.
+- earnings-related로 명시된 IR `document_type`은 SEC overlap hash 비교 대상이다.
 
 운영 원칙:
 

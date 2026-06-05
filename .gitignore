@@ -20,3 +20,6 @@ credentials.*
 # Source Pack raw 원자료 및 텍스트 추출물 (대용량 파일, git 제외)
 artifacts/raw/
 artifacts/derived/
+
+# /저장 명령 — 세션 체크포인트 (GitHub 노출 방지)
+docs/session-checkpoints/

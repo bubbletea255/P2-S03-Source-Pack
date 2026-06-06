@@ -12,8 +12,8 @@
 관련 설계 메모:
 
 ```text
-docs/ir-collection-design-notes-2026-06-04.md
-docs/aapl-ir-preflight-2026-06-04.md
+docs/design/ir-collection-design-notes-2026-06-04.md
+docs/pilots/aapl-ir-preflight-2026-06-04.md
 ```
 
 ## 1. 문제의식

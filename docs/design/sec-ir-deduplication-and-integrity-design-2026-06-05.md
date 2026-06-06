@@ -501,7 +501,7 @@ overlap_status: security_quarantined; collection_status: failed; repair_required
 
 이 섹션은 일반 규칙의 적용 예시다.
 `APP`는 AppLovin Corporation의 ticker이며, Apple의 ticker `AAPL`과 다르다.
-자료명이 회사별 label인지 새 `document_type` 후보인지 판단하는 기준은 `docs/ir-collection-design-notes-2026-06-04.md`의 `source_label` / `handled_as` 컨벤션을 따른다.
+자료명이 회사별 label인지 새 `document_type` 후보인지 판단하는 기준은 `docs/design/ir-collection-design-notes-2026-06-04.md`의 `source_label` / `handled_as` 컨벤션을 따른다.
 
 관련 run:
 

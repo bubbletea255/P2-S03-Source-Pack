@@ -44,7 +44,7 @@ IR 자료 수집은 바로 전체 taxonomy를 크게 만들지 않는다.
 별도 사전 조사 메모:
 
 ```text
-docs/aapl-ir-preflight-2026-06-04.md
+docs/pilots/aapl-ir-preflight-2026-06-04.md
 ```
 
 확인한 공식 출처:
@@ -321,7 +321,7 @@ IR 수집 전에는 접근 가능성을 확인한다.
 현재 preflight 메모에서 나중에 정리할 항목:
 
 ```text
-docs/aapl-ir-preflight-2026-06-04.md
+docs/pilots/aapl-ir-preflight-2026-06-04.md
 ```
 
 정리 후보:
@@ -350,7 +350,7 @@ preflight 메모는 run이 아니므로 관측 메트릭 위치로는 적절하�
    - earnings-related IR hash 비교 흐름 추가
    - pilot과 production 중복 처리 차이 명시
 
-3. docs/aapl-ir-preflight-2026-06-04.md
+3. docs/pilots/aapl-ir-preflight-2026-06-04.md
    - 확정된 schema/collector 용어 반영
    - 관측 섹션 제거
    - pilot run_scope 문구 정리

@@ -149,7 +149,7 @@ artifacts/catalog/ir-taxonomy-candidates.jsonl
 
 실적 관련 IR 자료는 SEC 8-K Item 2.02 또는 EX-99.1과 중복될 수 있다.
 Pilot 단계와 production 단계를 구분한다.
-상태값은 `docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md`의 정의를 기준으로 하며, 현재는 별도 관계 원장을 만들지 않고 `notes`에 기록한다.
+상태값은 `docs/design/sec-ir-deduplication-and-integrity-design-2026-06-05.md`의 정의를 기준으로 하며, 현재는 별도 관계 원장을 만들지 않고 `notes`에 기록한다.
 
 현재 IR collector에서 사용할 수 있는 최소 상태:
 

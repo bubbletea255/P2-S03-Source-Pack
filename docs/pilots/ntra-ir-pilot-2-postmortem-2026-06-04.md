@@ -13,7 +13,7 @@ IR collector와 QA 절차를 더 안전하게 만들기 위한 실행 기록이�
 
 | 항목 | 경로 |
 |---|---|
-| preflight 메모 | `docs/ntra-ir-preflight-2026-06-04.md` |
+| preflight 메모 | `docs/pilots/ntra-ir-preflight-2026-06-04.md` |
 | download-log | `artifacts/runs/run-20260604-ntra-ir-pilot/download-log.jsonl` |
 | run-summary | `artifacts/runs/run-20260604-ntra-ir-pilot/run-summary.md` |
 | qa | `artifacts/runs/run-20260604-ntra-ir-pilot/qa.md` |

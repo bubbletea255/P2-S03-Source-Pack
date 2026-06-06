@@ -152,7 +152,7 @@ artifacts/catalog/ir-taxonomy-candidates.jsonl
 기준 문서:
 
 ```text
-docs/source-pack-observability-template.md
+docs/templates/source-pack-observability-template.md
 ```
 
 현재 상태:
@@ -183,7 +183,7 @@ docs/source-pack-observability-template.md
 기준 문서:
 
 ```text
-docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md
+docs/design/sec-ir-deduplication-and-integrity-design-2026-06-05.md
 ```
 
 현재 적용된 것:
@@ -220,7 +220,7 @@ docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md
 파일:
 
 ```text
-docs/ir-collection-design-notes-2026-06-04.md
+docs/design/ir-collection-design-notes-2026-06-04.md
 ```
 
 역할:
@@ -244,7 +244,7 @@ candidate_document_type이 아니라 source_label/handled_as로 처리한다.
 파일:
 
 ```text
-docs/source-pack-structure-decision-notes-2026-06-04.md
+docs/design/source-pack-structure-decision-notes-2026-06-04.md
 ```
 
 역할:
@@ -265,7 +265,7 @@ harness2를 만들지 않는다.
 파일:
 
 ```text
-docs/ir-taxonomy-checkpoint-2026-06-05.md
+docs/current/ir-taxonomy-checkpoint-2026-06-05.md
 ```
 
 역할:
@@ -311,7 +311,7 @@ ir-non-gaap-reconciliation
 파일:
 
 ```text
-docs/source-pack-observability-template.md
+docs/templates/source-pack-observability-template.md
 ```
 
 역할:
@@ -331,7 +331,7 @@ docs/source-pack-observability-template.md
 파일:
 
 ```text
-docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md
+docs/design/sec-ir-deduplication-and-integrity-design-2026-06-05.md
 ```
 
 역할:
@@ -358,7 +358,7 @@ notes 방식이 복잡해지면 별도 관계 원장을 검토한다.
 파일:
 
 ```text
-docs/source-pack-ir-dedup-handoff-2026-06-05.md
+docs/handoff/source-pack-ir-dedup-handoff-2026-06-05.md
 ```
 
 역할:
@@ -377,7 +377,7 @@ docs/source-pack-ir-dedup-handoff-2026-06-05.md
 관련 파일:
 
 ```text
-docs/aapl-ir-preflight-2026-06-04.md
+docs/pilots/aapl-ir-preflight-2026-06-04.md
 artifacts/runs/run-20260604-aapl-ir-pilot/
 artifacts/companies/AAPL/index.md
 ```
@@ -401,8 +401,8 @@ AAPL은 IR 최소 구조가 실제 운영 catalog에 들어갈 수 있음을 보
 관련 파일:
 
 ```text
-docs/ntra-ir-preflight-2026-06-04.md
-docs/ntra-ir-pilot-2-postmortem-2026-06-04.md
+docs/pilots/ntra-ir-preflight-2026-06-04.md
+docs/pilots/ntra-ir-pilot-2-postmortem-2026-06-04.md
 artifacts/runs/run-20260604-ntra-ir-pilot/
 ```
 
@@ -424,7 +424,7 @@ NTRA는 taxonomy 확정 근거라기보다 보안 격리와 실패 처리 QA 사
 관련 파일:
 
 ```text
-docs/app-ir-preflight-2026-06-04.md
+docs/pilots/app-ir-preflight-2026-06-04.md
 artifacts/runs/run-20260604-app-ir-pilot/
 artifacts/companies/APP/index.md
 ```
@@ -522,7 +522,7 @@ APP는 SEC-IR overlap notes를 실제로 갱신하고 future recheck를 닫은 �
 - overlap status 정식 필드
 
 현재는 모두 `notes` 문자열에 기록한다.
-상태값과 notes 권장 패턴은 `docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md`를 기준으로 한다.
+상태값과 notes 권장 패턴은 `docs/design/sec-ir-deduplication-and-integrity-design-2026-06-05.md`를 기준으로 한다.
 
 ## 10. 나중에 할 수 있는 자동화 후보
 
@@ -605,7 +605,7 @@ security_quarantined
 
 ### 11.3 source-pack-ir-dedup-handoff는 최신 상태와 다를 수 있다
 
-`docs/source-pack-ir-dedup-handoff-2026-06-05.md`는 새 채팅방 핸드오프용으로 유용하지만, APP SEC-IR recheck 이후의 최신 cleanup까지 모두 반영하지 않았을 수 있다.
+`docs/handoff/source-pack-ir-dedup-handoff-2026-06-05.md`는 새 채팅방 핸드오프용으로 유용하지만, APP SEC-IR recheck 이후의 최신 cleanup까지 모두 반영하지 않았을 수 있다.
 
 최신 APP 상태는 아래를 우선한다.
 
@@ -679,21 +679,21 @@ relationships/source-observations 또는 integrity check 도구를 논의한다.
 - pilot으로 수집할 후보 1~3건을 제안할 것
 
 참고 파일:
-- docs/source-pack-ir-current-state-map-2026-06-05.md
-- docs/ir-collection-design-notes-2026-06-04.md
-- docs/ir-taxonomy-checkpoint-2026-06-05.md
+- docs/current/source-pack-ir-current-state-map-2026-06-05.md
+- docs/design/ir-collection-design-notes-2026-06-04.md
+- docs/current/ir-taxonomy-checkpoint-2026-06-05.md
 - harness/procedures/source-pack-ir-collector.md
 - harness/schemas/source-pack-catalog.schema.md
 
 산출물:
-- docs/{ticker-lower}-ir-preflight-2026-06-05.md
+- docs/pilots/{ticker-lower}-ir-preflight-2026-06-05.md
 ```
 
 ### 13.2 관측 가능성 논의
 
 ```text
-docs/source-pack-ir-current-state-map-2026-06-05.md와
-docs/source-pack-observability-template.md를 기준으로,
+docs/current/source-pack-ir-current-state-map-2026-06-05.md와
+docs/templates/source-pack-observability-template.md를 기준으로,
 Source Pack 관측 가능성을 지금 어느 정도까지 적용할지 논의해줘.
 
 특히:
@@ -705,8 +705,8 @@ Source Pack 관측 가능성을 지금 어느 정도까지 적용할지 논의�
 ### 13.3 중복/무결성 자동화 논의
 
 ```text
-docs/source-pack-ir-current-state-map-2026-06-05.md와
-docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md를 기준으로,
+docs/current/source-pack-ir-current-state-map-2026-06-05.md와
+docs/design/sec-ir-deduplication-and-integrity-design-2026-06-05.md를 기준으로,
 SEC-IR 중복/무결성 자동화를 언제 어떻게 도입할지 논의해줘.
 
 특히:

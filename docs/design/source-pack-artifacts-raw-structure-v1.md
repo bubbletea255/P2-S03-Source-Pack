@@ -894,7 +894,7 @@ artifacts/archive/link-only-legacy/U/index.md
 ```text
 harness/procedures/source-pack-qa.md
 harness/schemas/source-pack-catalog.schema.md
-docs/source-pack-artifacts-raw-structure-v1.md
+docs/design/source-pack-artifacts-raw-structure-v1.md
 ```
 
 ## 14. 단계별 적용 계획

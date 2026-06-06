@@ -21,17 +21,17 @@ ir-financial-update는 별도 document_type으로 올리지 않는다.
 설계 메모:
 
 ```text
-docs/ir-collection-design-notes-2026-06-04.md
-docs/source-pack-structure-decision-notes-2026-06-04.md
-docs/sec-ir-deduplication-and-integrity-design-2026-06-05.md
+docs/design/ir-collection-design-notes-2026-06-04.md
+docs/design/source-pack-structure-decision-notes-2026-06-04.md
+docs/design/sec-ir-deduplication-and-integrity-design-2026-06-05.md
 ```
 
 Preflight 메모:
 
 ```text
-docs/aapl-ir-preflight-2026-06-04.md
-docs/ntra-ir-preflight-2026-06-04.md
-docs/app-ir-preflight-2026-06-04.md
+docs/pilots/aapl-ir-preflight-2026-06-04.md
+docs/pilots/ntra-ir-preflight-2026-06-04.md
+docs/pilots/app-ir-preflight-2026-06-04.md
 ```
 
 Run 결과:
@@ -436,7 +436,7 @@ APP financial update에 대한 권고:
 IR taxonomy checkpoint 권고에 맞춰 APP financial update 관련 notes를 정리해줘.
 
 참고 파일:
-- docs/ir-taxonomy-checkpoint-2026-06-05.md
+- docs/current/ir-taxonomy-checkpoint-2026-06-05.md
 - artifacts/catalog/documents.jsonl
 - artifacts/catalog/files.jsonl
 - artifacts/companies/APP/index.md
@@ -468,9 +468,9 @@ IR taxonomy checkpoint 권고에 맞춰 APP financial update 관련 notes를 정
 - 공식 IR 사이트 기준으로 후보 1~2건만 제안
 
 참고 파일:
-- docs/ir-taxonomy-checkpoint-2026-06-05.md
-- docs/app-ir-preflight-2026-06-04.md
-- docs/ntra-ir-preflight-2026-06-04.md
+- docs/current/ir-taxonomy-checkpoint-2026-06-05.md
+- docs/pilots/app-ir-preflight-2026-06-04.md
+- docs/pilots/ntra-ir-preflight-2026-06-04.md
 ```
 
 현재 추천은 선택지 A다.

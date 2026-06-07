@@ -327,18 +327,21 @@ secret, credential, API key, .env, 대화 원문, 격리된 파일은 raw 산출
 
 module registry는 발견 가능성을 위한 목록이다.
 module 세부 규칙을 v5 core 본문에 복사하지 않는다.
+아래 `현재 후보 파일`의 경로 기준은 `docs/templates/global-harness-candidates/`이다.
 
 | module | 현재 후보 파일 | 사용할 때 |
 |---|---|---|
-| design-preflight | `global-harness-design-preflight-template-v0.md` | 하네스 유형, 산출물 역할, 품질 축, 수준 선언, 7요소, 도메인 프로그램 맥락을 정해야 할 때 |
-| approval-gate | `global-harness-approval-gate-template-v0.md` | 논의/검토와 실제 수정/실행 승인 경계를 상세화할 때 |
-| qa-scaffold | `global-harness-qa-scaffold-template-v0.md` | QA 상태값, rubric, repair loop, 재검증 절차가 필요할 때 |
-| security-baseline | `global-harness-security-baseline-template-v0.md` | secret, credential, 격리 파일, 공개 범위를 점검할 때 |
-| observability | `global-harness-observability-template-v0.md` | run-summary에 운영 관찰 필드, 병목, trim 후보를 남길 때 |
-| checkpoint | `global-harness-checkpoint-template-v0.md` | 긴 작업을 compact checkpoint로 이어가야 할 때 |
-| docs-organization | `global-harness-docs-organization-template-v0.md` | docs가 많아져 역할별 정리와 참조 점검이 필요할 때 |
-| candidate-ledger | `global-harness-candidate-ledger-template-v0.md` | 새 분류, 상태값, 예외를 바로 schema에 넣지 않고 후보로 관찰할 때 |
-| pilot-first / testing | 미정 | 새 source, 새 자동화, 새 schema 변경을 운영 반영 전에 작게 검증할 때 |
+| design-preflight | `global-harness-design-preflight-template-v0.md` | 하네스 유형, 산출물 역할, 품질 축, 수준 선언, 허용/금지 판단, 7요소, 실행 구조, 도메인 맥락을 정해야 할 때 |
+| type-schema | 별도 파일 없음. `design-preflight`(유형/품질 축 판단), `qa-scaffold`(검증 기준), 각 하네스의 `harness/schemas/` 연결 | 하네스 유형별 schema/rubric 구조를 정해야 할 때 |
+| security-baseline | `global-harness-security-baseline-template-v1.md` | secret, credential, `.env`, 비공개 대화 원문, 격리 파일, 외부 공개 범위의 최소 안전선이 필요할 때 |
+| approval-gate | `global-harness-approval-gate-template-v1.md` | 논의/검토와 실제 수정/실행 승인 경계를 상세화할 때 |
+| qa-scaffold | `global-harness-qa-scaffold-template-v1.md` | QA 항목 범주, 상태값, 결과 파일 skeleton, repair/recheck, escalation 기록 기준이 필요할 때 |
+| comparison | 별도 파일 없음. `design-preflight`(필요 여부), `qa-scaffold`(공통 rubric), `approval-gate`(운영 반영 승인), `observability`(비교 결과 기록) 연결 | 두 모델 실행 결과를 같은 기준으로 비교하고 운영 반영 여부를 판단할 때 |
+| observability | `global-harness-observability-template-v1.md` | run-summary에 운영 관찰 필드, 병목, trim 후보를 남길 때 |
+| candidate-ledger | `global-harness-candidate-ledger-template-v1.md` | 새 분류, 상태값, source, schema 값, 예외를 바로 정식화하지 않고 후보 record/evidence로 추적할 때 |
+| pilot-first / testing | 별도 파일 없음. `candidate-ledger`와 Phase 7 pilot validation에서 처리 | 새 source, 새 자동화, 새 schema 변경을 운영 반영 전에 후보로 기록하고 작게 검증할 때 |
+| checkpoint | `global-harness-checkpoint-template-v1.md` | 긴 작업을 원문 저장 없이 compact checkpoint로 이어가야 할 때 |
+| docs-organization | `global-harness-docs-organization-template-v1.md` | docs가 많아져 역할별 정리, `docs/README.md` 색인, 이동 전후 참조 점검이 필요할 때 |
 
 module 적용 원칙:
 
@@ -358,7 +361,7 @@ module 적용 원칙:
 | 특정 도메인 예시 | Source Pack, SEC, IR, transcript 같은 사례는 reference/example로 둔다. |
 | 자동화 스크립트 | 특정 도구나 런타임에 묶일 수 있으므로 core에 넣지 않는다. |
 | HTML 리포트/대시보드 출력 템플릿 | 산출물 유형별 템플릿이지 모델 중립 실행 구조가 아니다. |
-| 하네스 유형별 상세 schema/rubric | v4 reference 또는 별도 `type-schema`/`qa-scaffold` module에서 다룬다. `design-preflight`는 schema/rubric 선택에 필요한 유형과 품질 축만 정한다. |
+| 하네스 유형별 상세 schema/rubric | `type-schema` registry item, `qa-scaffold`, 각 하네스의 `harness/schemas/`, 또는 v4 reference에서 다룬다. `design-preflight`는 schema/rubric 선택에 필요한 유형과 품질 축만 정한다. |
 
 ## 14. 적용 전 체크리스트
 
@@ -386,14 +389,19 @@ module 적용 원칙:
 - [ ] Source Pack 같은 특정 도메인 예시를 core 본문에 길게 넣지 않았다.
 - [ ] v1을 전역 확정 문서로 취급하지 않고 후보 템플릿으로 기록했다.
 
-## 15. 다음 검증
+## 15. 검증 상태와 남은 검증
 
 이 v1 후보는 문서 작성으로 끝나지 않는다.
-다음 단계에서 해야 할 일:
 
-1. `global-harness-v5-work-map.md`에 v1 생성 사실을 기록한다.
-2. README에 v1, gap analysis, extraction note, design-preflight 링크를 추가할지 결정한다.
-3. `design-preflight` module v0가 extraction note와 충돌하지 않는지 검토한다.
-4. approval, QA, security hook이 각 module v0와 충돌하지 않는지 검토한다.
-5. 최소 한 개의 다음 하네스 청사진에 v1을 적용해본다.
-6. 실제 적용 후 과하거나 부족한 규칙을 `docs/` 또는 improvement log에 남긴다.
+완료된 검증:
+
+1. `global-harness-v5-work-map.md`에 v1 생성 사실을 기록했다.
+2. README에 v1, gap analysis, extraction note, design-preflight, Phase 4 hook cross-check note를 반영했다.
+3. `design-preflight` module v0가 extraction note와 충돌하지 않는지 검토했다.
+4. approval, QA, security hook이 각 module v0와 충돌하지 않는지 검토했다.
+
+남은 검증:
+
+1. Phase 5에서 module registry와 실제 후보 파일 목록을 검증한다.
+2. Phase 7에서 최소 한 개의 다음 하네스 청사진에 v1을 적용해본다.
+3. 실제 적용 후 과하거나 부족한 규칙을 `docs/` 또는 improvement log에 남긴다.

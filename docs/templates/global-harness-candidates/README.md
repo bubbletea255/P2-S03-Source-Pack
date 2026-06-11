@@ -37,6 +37,18 @@
 23. `global-harness-docs-organization-template-v1.md` — 현재 docs-organization 후보
 24. `global-harness-v5-phase6-candidate-ledger-scope-note-2026-06-07.md` — candidate-ledger v1 범위 합의 note
 25. `global-harness-candidate-ledger-template-v1.md` — 현재 candidate-ledger 후보
+26. `global-harness-v5-phase7-planning-consensus-note-2026-06-07.md` — Phase 7 구조와 사용자 결정 Q1~Q5 합의 note
+27. `global-harness-v5-phase7-signal-routing-scope-note-2026-06-08.md` — signal-routing v0 작성 전 범위 합의 note
+28. `global-harness-signal-routing-template-v0.md` — 현재 signal-routing 후보
+29. `global-harness-v5-phase7a-source-pack-retro-validation-note-2026-06-08.md` — Phase 7-A Source Pack 소급 검증 note
+30. `global-harness-v5-phase7b-industry-primer-design-principles-note-2026-06-08.md` — Phase 7-B Industry Primer pilot plan 전 설계 원칙 note
+31. `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v0-2026-06-08.md` — Phase 7-B Industry Primer pilot plan 질문/답변 누적 note v0
+32. `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v1-2026-06-08.md` — Phase 7-B Industry Primer first slice pilot 실행 계획서 v1
+33. `global-harness-v5-phase7b-industry-primer-blueprint-prep-note-2026-06-08.md` — Industry Primer blueprint 작성 전 rubric/QA/schema/handoff 합의 note
+34. `global-harness-v5-phase7b-industry-primer-blueprint-prep-section11-consensus-note-2026-06-09.md` — blueprint-prep Section 11의 6개 질문 합의와 Claude Code PASS note
+35. `global-harness-v5-phase7b-industry-primer-first-slice-rubric-calibration-note-2026-06-09.md` — Industry Primer first slice Section 1/3/5/13 rubric calibration과 Claude Code PASS note
+36. `global-harness-v5-phase7b-industry-primer-blueprint-v0-2026-06-09.md` — Industry Primer first slice 하네스 blueprint v0 초안
+37. `global-harness-v5-phase7b-industry-primer-pre-build-risk-review-note-2026-06-09.md` — Industry Primer 실제 하네스 파일 생성 전 첫 공식 challenge review와 blueprint v0 최소 수정 기준 note
 
 전역 `harness-lab`은 이 폴더에서 직접 수정하지 않는다.
 이 폴더의 문서는 후보이며, 실제 하네스 적용과 pilot 검증 후 전역화 여부를 별도로 결정한다.
@@ -99,6 +111,18 @@ Source Pack에서 얻은 교훈은 여러 성격으로 나뉜다.
 | `global-harness-candidate-ledger-template-v0.md` | 새 분류/상태/유형 후보를 바로 확정하지 않고 누적하는 패턴 | Phase 5/6 module 검증 대상 |
 | `global-harness-v5-phase6-candidate-ledger-scope-note-2026-06-07.md` | Phase 6 candidate-ledger scope note | candidate-ledger v1 후보 작성 전 record/evidence, append-first, 승격/폐기/보류 경계 정리 |
 | `global-harness-candidate-ledger-template-v1.md` | 새 분류/상태/유형 후보를 바로 확정하지 않고 누적하는 패턴 v1 | 현재 candidate-ledger 후보 |
+| `global-harness-v5-phase7-planning-consensus-note-2026-06-07.md` | Phase 7 planning consensus note | Phase 7-0/A/B/C 구조, signal-routing, Source Pack 소급 검증, Industry Primer pilot, 전역 배포 판단 기준 |
+| `global-harness-v5-phase7-signal-routing-scope-note-2026-06-08.md` | Phase 7-0 signal-routing scope note | signal-routing v0 후보 작성 전 severity, route, record, user visibility 경계 정리 |
+| `global-harness-signal-routing-template-v0.md` | signal-routing v0 후보 | 알림/경고/에스컬레이션을 공통 signal envelope와 routing 계약으로 표현 |
+| `global-harness-v5-phase7a-source-pack-retro-validation-note-2026-06-08.md` | Phase 7-A Source Pack 소급 검증 note | Source Pack 실제 구조와 대표 사건을 v5 core/module 후보에 read-only 방식으로 대조한 결과 |
+| `global-harness-v5-phase7b-industry-primer-design-principles-note-2026-06-08.md` | Phase 7-B Industry Primer design principles note | pilot plan 작성 전 실행 주체, 산업/기업 단위, source tracking, QA, module 선택 원칙 정리 |
+| `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v0-2026-06-08.md` | Phase 7-B Industry Primer pilot plan note v0 | pilot plan v1 작성 전 질문, 답변, 합의를 누적하는 살아있는 논의판 |
+| `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v1-2026-06-08.md` | Phase 7-B Industry Primer pilot plan note v1 | APP/adtech Industry Primer first slice pilot 실행 계획서 |
+| `global-harness-v5-phase7b-industry-primer-blueprint-prep-note-2026-06-08.md` | Phase 7-B Industry Primer blueprint prep note | blueprint 작성 전 rubric, QA output, output schema, Section 13 handoff schema 합의 기준 |
+| `global-harness-v5-phase7b-industry-primer-blueprint-prep-section11-consensus-note-2026-06-09.md` | Phase 7-B Industry Primer blueprint prep Section 11 consensus note | blueprint-prep Section 11의 6개 질문에 대한 하네스 구조, rubric, QA output, schema, handoff, module 연결 합의 기준 |
+| `global-harness-v5-phase7b-industry-primer-first-slice-rubric-calibration-note-2026-06-09.md` | Phase 7-B Industry Primer first slice rubric calibration note | Section 1/3/5/13의 좋은 답, 보완 가능 답, blocked 기준과 full rubric/QA expansion 추적 기준 |
+| `global-harness-v5-phase7b-industry-primer-blueprint-v0-2026-06-09.md` | Phase 7-B Industry Primer blueprint v0 | Industry Primer first slice 하네스의 contract, procedure, schema, rubric, output, adapter 경계와 module 연결 설계 초안 |
+| `global-harness-v5-phase7b-industry-primer-pre-build-risk-review-note-2026-06-09.md` | Phase 7-B Industry Primer pre-build risk review note | 실제 파일 생성 전 challenge review, 즉시 blueprint 반영 항목과 backlog/trigger 구분 |
 
 ## 적용 단계
 
@@ -133,6 +157,5 @@ Source Pack에서 얻은 교훈은 여러 성격으로 나뉜다.
 
 현재 다음 큰 단계:
 
-1. v1 core Section 12 module registry 정렬 결과를 교차검증한다.
-2. 교차검증 PASS 후 Phase 7 pilot 검증과 전역화 판단 논의로 넘어간다.
-3. 실제 다음 하네스에서 pilot 적용 후 전역화 여부를 판단한다.
+1. 실제 Industry Primer first slice 하네스 파일 생성 여부를 사용자 승인 게이트에서 결정한다.
+2. 승인 전에는 `harness/`, `.agents/`, `.claude/`, `artifacts/` 파일을 만들지 않는다.

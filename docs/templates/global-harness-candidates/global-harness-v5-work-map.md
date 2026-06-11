@@ -85,6 +85,20 @@
 | `docs/templates/global-harness-candidates/global-harness-candidate-ledger-template-v0.md` | candidate ledger v0 후보 | module registry와 module v1 후보 작성에 사용 |
 | `docs/templates/global-harness-candidates/global-harness-v5-phase6-candidate-ledger-scope-note-2026-06-07.md` | Phase 6 candidate-ledger scope note | candidate-ledger v1 후보 작성 전 record/evidence, append-first, 승격/폐기/보류 경계 정리 |
 | `docs/templates/global-harness-candidates/global-harness-candidate-ledger-template-v1.md` | candidate ledger v1 후보 | 후보 record/evidence, lifecycle, review trigger, 승격/폐기/보류 기준을 담은 현재 candidate-ledger 후보 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7-planning-consensus-note-2026-06-07.md` | Phase 7 planning consensus note | Phase 7-0/A/B/C 구조, signal-routing, Source Pack 소급 검증, Industry Primer pilot, 전역 배포 판단의 기준 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7-signal-routing-scope-note-2026-06-08.md` | Phase 7-0 signal-routing scope note | signal-routing v0 후보 작성 전 severity, route, record, user visibility 경계 정리 |
+| `docs/templates/global-harness-candidates/global-harness-signal-routing-template-v0.md` | signal-routing v0 후보 | 알림/경고/에스컬레이션을 공통 signal envelope와 routing 계약으로 표현하는 현재 후보 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7a-source-pack-retro-validation-note-2026-06-08.md` | Phase 7-A Source Pack 소급 검증 note | Source Pack 실제 구조와 대표 사건을 v5 core/module 후보에 read-only 방식으로 대조한 결과 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-design-principles-note-2026-06-08.md` | Phase 7-B Industry Primer design principles note | pilot plan 작성 전 실행 주체, 산업/기업 단위, source tracking, QA, module 선택 원칙을 고정 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-pilot-plan-note-v0-2026-06-08.md` | Phase 7-B Industry Primer pilot plan note v0 | pilot plan v1 작성 전 질문, 답변, 합의를 누적하는 살아있는 논의판 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-pilot-plan-note-v1-2026-06-08.md` | Phase 7-B Industry Primer pilot plan note v1 | APP/adtech Industry Primer first slice pilot 실행 계획서 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-blueprint-prep-note-2026-06-08.md` | Phase 7-B Industry Primer blueprint prep note | blueprint 작성 전 rubric, QA output, output schema, Section 13 handoff schema 합의 기준 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-blueprint-prep-section11-consensus-note-2026-06-09.md` | Phase 7-B Industry Primer blueprint prep Section 11 consensus note | blueprint-prep note Section 11의 6개 질문에 대한 합의와 Claude Code 교차검증 PASS 기준 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-first-slice-rubric-calibration-note-2026-06-09.md` | Phase 7-B Industry Primer first slice rubric calibration note | Section 1/3/5/13의 좋은 답, 보완 가능 답, blocked 기준과 full rubric/QA expansion 추적 기준 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-blueprint-v0-2026-06-09.md` | Phase 7-B Industry Primer blueprint v0 | Industry Primer first slice 하네스의 contract, procedure, schema, rubric, output, adapter 경계와 module 연결 설계 초안 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-industry-primer-pre-build-risk-review-note-2026-06-09.md` | Phase 7-B Industry Primer pre-build risk review note | 실제 하네스 파일 생성 전 첫 공식 challenge review와 blueprint v0 최소 수정 항목 확정 기준 |
+| `docs/templates/global-harness-candidates/global-harness-v5-phase7b-s04-migration-plan-2026-06-11.md` | Phase 7-B S04 migration/bootstrap plan | Industry Primer 하네스를 S03 안에 만들지 않고 P2-S04 독립 하네스로 이전하기 위한 계획과 Claude Code PASS 기준 |
+| `docs/handoff/s04-migration-handoff-2026-06-11.md` | S04 migration handoff note | Phase 7-B Industry Primer build/pilot 추적을 S03에서 S04로 넘긴다는 최종 handoff 기록 |
 | `docs/current/source-pack-architecture-map-2026-06-06.md` | Source Pack 실제 사례 지도 | v5 후보가 현실 구조와 맞는지 확인 |
 | `docs/templates/source-pack-observability-template.md` | Source Pack 관측 가능성 템플릿 | observability module 일반화 참고 |
 
@@ -254,15 +268,119 @@ remaining module location 판정 기준:
 
 목표: v5 core와 module 후보를 실제 다음 하네스에서 검증한 뒤 전역 반영 여부를 결정한다.
 
+기준 문서: `global-harness-v5-phase7-planning-consensus-note-2026-06-07.md`
+
+Phase 7은 단일 pilot이 아니라 아래 네 하위 단계로 진행한다.
+
+```text
+Phase 7-0. signal-routing scope note + v0
+Phase 7-A. Source Pack 소급 검증
+Phase 7-B. Industry Primer 실전 검증
+Phase 7-C. 전역 배포 판단
+```
+
+#### Phase 7-0. signal-routing scope note + v0
+
+목표: 보안, QA, docs 정리, observability, candidate-ledger가 각자 다른 방식으로 알림/경고를 만들지 않도록 공통 signal-routing 계약을 먼저 정의한다.
+
 | 상태 | 작업 | 산출물 |
 |---|---|---|
-| todo | pilot 대상 하네스 선정 | pilot plan |
-| todo | v5 core 후보를 pilot 청사진에 적용 | pilot notes |
-| todo | module 중 필요한 것만 선택 적용 | pilot notes |
-| todo | 적용 중 drift, 누락, 과잉 규칙 기록 | evaluation note |
-| todo | 공통 signal/notification module 후보를 둘지 검토 | notification decision note |
-| todo | 전역 배포 시 module registry 기준 경로 문구를 portable하게 바꿀지 검토 | packaging note |
-| todo | 전역 `harness-lab` 수정 여부는 별도 논의로 보류 | deferred decision |
+| done | signal-routing scope note 작성 | `global-harness-v5-phase7-signal-routing-scope-note-2026-06-08.md` |
+| done | signal-routing scope note Claude Code 교차검증 PASS 확인 | validation note |
+| done | signal-routing v0 후보 파일 작성 | `global-harness-signal-routing-template-v0.md` |
+| done | signal-routing v0 Claude Code 교차검증 PASS 확인 | validation note |
+| done | signal-routing을 v1 core registry에 반영할지 결정 | `global-harness-core-structure-template-v1.md` Section 12 |
+
+#### Phase 7-A. Source Pack 소급 검증
+
+목표: Source Pack 경험과 v5 template 후보의 내부 일관성을 확인한다. 이 단계는 독립 실전 검증이 아니라 확증 편향 가능성이 있는 retrospective filter다.
+
+| 상태 | 작업 | 산출물 |
+|---|---|---|
+| done | Source Pack 소급 검증 note 작성 | `global-harness-v5-phase7a-source-pack-retro-validation-note-2026-06-08.md` |
+| done | module별 소급 대조 결과 작성 | validation note |
+| done | signal-routing으로 포착했어야 할 신호 목록 작성 | validation note |
+| done | 대표 사건과 핵심 폴더 중심으로 Source Pack 검토 | validation note |
+| done | IR taxonomy overlap 충돌 사건 검토: `sec_equivalent_not_found_in_scoped_8k`, `security_quarantined` | validation note |
+| done | B 진입 전 수정 후보 목록 작성 | validation note |
+| done | A 완료 판정 기록 | `pass` |
+| done | Source Pack 소급 검증 note Claude Code 교차검증 PASS 확인 | validation review |
+
+#### Phase 7-B. Industry Primer 실전 검증
+
+목표: v5 template 후보를 다음 하네스에 실제로 적용해 사용성, 누락, 과잉 규칙, drift를 검증한다.
+
+| 상태 | 작업 | 산출물 |
+|---|---|---|
+| done | 다음 하네스 후보와 유형 결정 | user decision: Phase 2 - Step 4 `Industry Primer`, 산업 이해 / 구조화 / 분석 준비형 |
+| done | 첫 pilot 대상 후보 결정 | APP / adtech / mobile advertising |
+| done | Industry Primer design principles note 작성 | `global-harness-v5-phase7b-industry-primer-design-principles-note-2026-06-08.md` |
+| done | Industry Primer design principles note Claude Code 교차검증 PASS 확인 | validation review |
+| done | Industry Primer pilot plan note v0 작성 | `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v0-2026-06-08.md` |
+| done | Industry Primer pilot plan 질문별 답변/합의 누적 | `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v0-2026-06-08.md` |
+| done | Industry Primer pilot plan note v1 작성 | `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v1-2026-06-08.md` |
+| done | Industry Primer pilot plan note v1 Claude Code 교차검증 PASS 확인 | validation review |
+| done | Industry Primer blueprint prep note 작성 | `global-harness-v5-phase7b-industry-primer-blueprint-prep-note-2026-06-08.md` |
+| done | Industry Primer blueprint prep note Claude Code 교차검증 PASS 확인 | validation review |
+| done | blueprint 논의: blueprint-prep note Section 11 기준 6개 질문 커버 | `global-harness-v5-phase7b-industry-primer-blueprint-prep-section11-consensus-note-2026-06-09.md` |
+| done | Industry Primer blueprint prep Section 11 consensus note Claude Code 교차검증 PASS 확인 | validation review |
+| done | Industry Primer first slice rubric calibration note 작성 | `global-harness-v5-phase7b-industry-primer-first-slice-rubric-calibration-note-2026-06-09.md` |
+| done | Industry Primer first slice rubric calibration note Claude Code 교차검증 PASS 확인 | validation review |
+| done | Industry Primer blueprint 초안 작성 | `global-harness-v5-phase7b-industry-primer-blueprint-v0-2026-06-09.md` |
+| done | Industry Primer blueprint Claude Code 교차검증 PASS 확인 | validation review |
+| done | Phase 7-B challenge review 수행 (conformance vs challenge 구분 확립) | `global-harness-v5-phase7b-industry-primer-pre-build-risk-review-note-2026-06-09.md` |
+| done | pre-build risk review note Claude Code 교차검증 PASS 확인 | validation review |
+| done | pre-build risk review note 기준 blueprint v0 최소 수정 6개 반영 | `global-harness-v5-phase7b-industry-primer-blueprint-v0-2026-06-09.md` |
+| done | 수정된 blueprint v0 Claude Code 교차검증 PASS 확인 | validation review |
+| done | S04 migration/bootstrap plan 작성 | `global-harness-v5-phase7b-s04-migration-plan-2026-06-11.md` |
+| done | S04 migration/bootstrap plan Claude Code 교차검증 PASS 확인 | validation review |
+| done | 실제 Industry Primer first slice 하네스 파일 생성 여부 사용자 승인 게이트를 S04 이전 결정으로 처리 | `docs/handoff/s04-migration-handoff-2026-06-11.md` |
+| done | Phase 7-B Industry Primer build/pilot 남은 작업을 P2-S04 work-map으로 이전 | `docs/handoff/s04-migration-handoff-2026-06-11.md` |
+| done | S04로 넘길 TODO 기록: Step 7 하네스 파일 생성 후 S04 `CLAUDE.md`에 `harness/` 구조 섹션 추가 | `docs/handoff/s04-migration-handoff-2026-06-11.md` |
+| done | S03 work-map handoff/freeze 상태 표시 | S03은 Source Pack 하네스와 Global Harness v5 설계 스냅샷으로 보존 |
+
+참고:
+
+- `Earnings Call`은 Step 3 Source Pack의 하위 분화 후보로 둔다.
+- `Earnings Call`은 `Industry Primer`의 blocking dependency가 아니다.
+- `Earnings Call` 산출물 계약은 Step 6 `Business Model` 또는 이후 Financial Quality/Monitoring 계열 하네스 전까지 정리한다.
+- B 계획 수립은 A와 병렬로 진행할 수 있지만, B 실제 실행은 A 완료 후 진행한다.
+- APP Source Pack은 full collection이 아니라 partial input이다. pilot plan에는 `Input Readiness Preflight`를 포함하고, 현재 APP 입력은 `Conditional Proceed`로 다룬다.
+- blueprint 논의는 blueprint-prep note의 6개 질문(하네스 구조, rubric, QA output format, output schema, handoff, module 연결)을 중심으로 진행한다. 이 질문들은 순차적으로 분리 처리하지 않고, 하나의 blueprint 문서로 수렴하도록 함께 설계한다.
+
+#### Phase 7-C. 전역 배포 판단
+
+목표: Phase 7-A와 7-B 결과를 바탕으로 v5 template 후보를 전역 bundle로 배포할지 판단한다.
+
+| 상태 | 작업 | 산출물 |
+|---|---|---|
+| todo | 전역 배포 여부 결정 | deployment decision note |
+| todo | Codex/Claude 전역 배포 구조 결정 | packaging note |
+| todo | canonical source 위치 결정 | packaging note |
+| todo | registry 경로 문구 portable화 여부 결정 | packaging note |
+| todo | version/changelog 정책 결정 | packaging note |
+| todo | Source Pack 사례를 전역 bundle에 어느 정도 reference로 남길지 결정 | packaging note |
+| todo | 전역 `harness-lab` 수정 여부는 계속 보류 또는 별도 논의 | deferred decision |
+
+##### Phase 7-B에서 발견한 전역 template 반영 입력
+
+이미 확정 — 반드시 반영:
+
+- conformance review / challenge review 구분
+- pre-build risk review gate
+
+first slice 후 관찰 — 검증 후 반영 여부 결정:
+
+- source interpretation risk rubric 언어
+- User Review Required Claims 형식
+- company bias / anti-cheerleading rubric 언어
+- source quality tier 구체 기준
+- system complexity / 운영 부담 수준
+
+참고:
+
+- 21단계 가설 검증 기준, JSONL migration trigger, Source Pack expansion trigger는 중요하지만 전역 template 반영 후보가 아니라 project-level 또는 Source Pack backlog에서 추적한다.
+- User Review Required Claims는 AI가 최종 검증하는 장치가 아니라, 사용자가 승인 전 원문/source와 도메인 지식으로 검토할 고위험 claim을 드러내는 장치다.
 
 ## 6. 현재 작업 보드
 
@@ -272,16 +390,17 @@ remaining module location 판정 기준:
 
 ### Next
 
-1. Phase 7 진입 전에 사용자 확인 질문을 먼저 논의한다.
-2. 사용자 확인이 끝나면 Phase 7 pilot 검증과 전역화 판단 논의로 넘어간다.
+1. S03에서 Phase 7-B Industry Primer build/pilot 작업을 더 진행하지 않는다.
+2. 사용자가 `C:\Users\frisa\Documents\Investment-Research-OS\P2-S04-Industry-Primer` 폴더 생성과 독립 `git init` Gate를 직접 수행한다.
+3. 이후 `global-harness-v5-phase7b-s04-migration-plan-2026-06-11.md`에 따라 S04 파일 복사, S04 bootstrap, S04 Industry Primer 하네스 파일 생성을 S04 work-map에서 추적한다.
+4. S03의 `harness/`, `.agents/`, `.claude/`, `artifacts/`는 Source Pack 전용으로 유지한다.
 
 ### Backlog
 
 - file-template 후보는 반복 scaffold 필요성이 확인되면 별도 module 여부 재검토
 - adapter-template 후보는 추가 adapter 반복 패턴이 확인되면 별도 module 여부 재검토
 - meta-orchestrator 후보는 multi-harness pilot 이후 별도 module 여부 재검토
-- signal-routing 또는 notification/escalation 후보는 docs 정리, 보안, QA, observability 알림 신호가 반복되면 별도 module 여부 재검토
-- 전역 배포 시 v1 core Section 12의 `docs/templates/global-harness-candidates/` 기준 경로 문구를 template bundle 기준 문구로 바꿀지 검토
+- Phase 7-C에서 전역 배포 구조, canonical source, portable path, version/changelog 정책 결정
 
 ### Done
 
@@ -331,6 +450,27 @@ remaining module location 판정 기준:
 - Phase 6 candidate-ledger v1 Claude Code 교차검증 PASS 확인
 - Phase 6 module registry 정렬 원칙 확정 및 v1 Section 12 순서 재정렬 완료
 - Phase 6 module registry 정렬 결과 Claude Code 교차검증 PASS 확인
+- Phase 7 planning consensus note 작성 및 Claude Code 교차검증 PASS 확인
+- Phase 7 사용자 결정 Q1~Q5 완료: Industry Primer pilot, signal-routing v0, Source Pack 소급 검증 범위 확정
+- Phase 7-0 signal-routing scope note 작성 완료
+- Phase 7-0 signal-routing scope note Claude Code 교차검증 PASS 확인
+- Phase 7-0 signal-routing v0 후보 파일 작성 완료
+- Phase 7-0 signal-routing v0 Claude Code 교차검증 PASS 확인
+- Phase 7-0 signal-routing을 v1 core Section 12 registry에 반영 완료
+- Phase 7-A Source Pack 소급 검증 note 작성 완료
+- Phase 7-A Source Pack 소급 검증 note Claude Code 교차검증 PASS 확인
+- Phase 7-B Industry Primer design principles note 작성 완료
+- Phase 7-B Industry Primer design principles note Claude Code 교차검증 PASS 확인
+- Phase 7-B Industry Primer pilot plan note v0 작성 완료
+- Phase 7-B Industry Primer pilot plan note v1 작성 완료
+- Phase 7-B Industry Primer pilot plan note v1 Claude Code 교차검증 PASS 확인
+- Phase 7-B Industry Primer blueprint prep note 작성 완료
+- Phase 7-B Industry Primer blueprint prep note Claude Code 교차검증 PASS 확인
+- Phase 7-B Industry Primer blueprint prep Section 11 consensus note 작성 완료
+- Phase 7-B Industry Primer blueprint prep Section 11 consensus note Claude Code 교차검증 PASS 확인
+- Phase 7-B Industry Primer first slice rubric calibration note 작성 완료
+- Phase 7-B Industry Primer first slice rubric calibration note Claude Code 교차검증 PASS 확인
+- Phase 7-B Industry Primer blueprint v0 작성 완료
 - `harness-lab`은 당장 수정하지 않는다는 원칙 확인
 - `Completion Contract` 별도 용어를 만들지 않기로 결정
 
@@ -405,6 +545,55 @@ remaining module location 판정 기준:
 | 2026-06-07 | `global-harness-candidate-ledger-template-v1.md`를 새 후보 파일로 만든다 | candidate-ledger scope note와 Claude Code 교차검증에서 record/evidence, append-first, 승격/폐기/보류 경계가 합의됐기 때문 |
 | 2026-06-07 | v1 module registry는 파일 유무가 아니라 개념 흐름 기준으로 정렬하고, no-file 항목은 연결 module 바로 뒤에 둔다 | registry는 파일 목록이 아니라 module 발견과 적용 순서를 돕는 안내 표이므로 사용자가 하네스 설계 흐름대로 읽을 수 있어야 하기 때문 |
 | 2026-06-07 | 알림/경고 공통 기능은 지금 즉시 별도 module로 만들지 않고 Phase 7에서 signal-routing 또는 notification/escalation 후보로 검토한다 | docs 정리, 보안, QA, observability가 각자 다른 경고 방식을 만들면 drift가 생길 수 있지만, 아직 반복 사용 검증 전이므로 후보로 추적하는 것이 안전하기 때문 |
+| 2026-06-08 | `global-harness-v5-phase7-planning-consensus-note-2026-06-07.md`를 Phase 7 작업 지도 재편의 기준 문서로 삼는다 | Phase 7 구조, 사용자 결정 Q1~Q5, signal-routing, Source Pack 소급 검증, Industry Primer pilot, 전역 배포 판단이 합의됐기 때문 |
+| 2026-06-08 | Phase 7은 7-0, 7-A, 7-B, 7-C로 나누어 진행한다 | signal-routing을 먼저 정의하고, Source Pack 소급 검증과 Industry Primer 실전 검증, 전역 배포 판단을 분리해야 검증 목적과 한계가 흐려지지 않기 때문 |
+| 2026-06-08 | Phase 7-B 첫 실전 pilot 대상은 Phase 2 - Step 4 `Industry Primer`로 한다 | Source Pack 다음 순서로 자연스럽고, Source Pack과 충분히 다른 유형이며, `Moat`처럼 앞단 입력 의존성이 과하지 않기 때문 |
+| 2026-06-08 | `Earnings Call`은 Step 3 Source Pack의 하위 분화 후보로 두되 `Industry Primer`의 blocking dependency로 보지 않는다 | Industry Primer는 산업 수준 이해가 핵심이며, Earnings Call 산출물 계약은 Step 6 `Business Model` 또는 이후 하네스 전까지 정리하면 되기 때문 |
+| 2026-06-08 | signal-routing은 Phase 7-0에서 scope note와 v0까지 작성한다 | 보안, QA, docs, observability, candidate-ledger의 알림/경고 방식이 drift되지 않게 공통 severity/routing/user-visible 계약이 필요하기 때문 |
+| 2026-06-08 | Phase 7-A는 Source Pack 전체를 대상으로 하되 대표 사건과 핵심 폴더 중심으로 소급 검증한다 | 전체 구조를 놓치지 않으면서도 exhaustive audit으로 작업 범위가 폭발하는 것을 막기 위함 |
+| 2026-06-08 | signal-routing scope note에서는 `severity`, `route_to`, `record_in`, `user_visibility`를 분리한다 | 긴급도, 처리 module, 기록 위치, 사용자 노출 기준을 섞으면 알림/경고 drift가 생기기 때문 |
+| 2026-06-08 | `candidate`와 `improvement`는 severity가 아니라 route/record 성격으로 다룬다 | `candidate-ledger`와 이름 충돌을 피하고 severity를 처리 강도 기준으로 유지하기 위함 |
+| 2026-06-08 | signal-routing은 별도 signal log를 강제하지 않고 공통 envelope와 routing 원칙만 정의한다 | 작은 하네스에 artifacts 부담을 늘리지 않고 기존 run-summary, QA 결과, candidate-ledger를 활용하기 위함 |
+| 2026-06-08 | signal-routing v0는 scope note의 진행 메타 문구를 제외하고 실행에 필요한 template 계약만 담는다 | v0가 작업 기록이 아니라 새 하네스에 재사용 가능한 module template이어야 하기 때문 |
+| 2026-06-08 | signal-routing은 v1 core Section 12 registry에 등재한다 | 파일이 존재하고 Claude Code 교차검증 PASS를 받았으며, 여러 module의 알림/경고/escalation을 연결하는 cross-module 계약이라 발견 가능성이 필요하기 때문 |
+| 2026-06-08 | signal-routing registry 위치는 `comparison` 뒤, `observability` 앞에 둔다 | QA/comparison/approval 쪽에서 나온 신호를 공통 envelope로 정리한 뒤 observability/candidate-ledger로 이어지는 흐름이 자연스럽기 때문 |
+| 2026-06-08 | Phase 7-A Source Pack 소급 검증은 read-only retrospective validation으로 수행한다 | 기존 Source Pack 하네스, adapter, artifacts, catalog, docs 구조를 임의로 수정하지 않고 문제는 B 진입 전 수정 후보 목록에 기록하기 위함 |
+| 2026-06-08 | Phase 7-A validation note의 초기 완료 판정은 `pass`로 둔다 | Source Pack 실제 구조와 v5 core/module 후보 사이 blocking conflict가 발견되지 않았고 B 전 직접 수정이 필요한 항목이 없다고 판단했기 때문 |
+| 2026-06-08 | Phase 7-A validation note Claude Code 교차검증 결과 PASS로 본다 | 필수 요건을 모두 충족했고, signal table의 minor observation은 `user_visibility` 단일값과 security self-routing 제거로 정리했기 때문 |
+| 2026-06-08 | Industry Primer 하네스는 도구 중립 구조로 설계한다 | 기존 GPT 프롬프트를 하네스 본문으로 복사하지 않고 reference로 흡수하며, Codex/Claude/ChatGPT 계열 실행자는 얇은 adapter로 두기 위함 |
+| 2026-06-08 | Industry Primer v0 산출물은 산업 중심 + target company context로 두되 run 단위 standalone / immutable로 둔다 | 산업별 master primer, update, company appendix 모델을 v0부터 넣으면 version/reuse/reconcile 문제가 커지기 때문 |
+| 2026-06-08 | Industry Primer source tracking은 v0에서 `source_id`, `source_type`, `title`, `url_or_path`를 최소 필드로 두고 웹 source에는 `accessed_at`을 요구한다 | Source Pack 파일 출처와 웹 외부자료를 함께 쓰면서도 `reliability` 같은 주관 필드는 pilot 이후로 미루기 위함 |
+| 2026-06-08 | Industry Primer QA는 구조, 출처, 범위, 판단, handoff 5층 구조로 설계한다 | Industry Primer는 Source Pack처럼 파일 존재 중심 QA가 아니라 판단 기반 산출물이므로 범위 초과와 후속 질문 품질까지 검증해야 하기 때문 |
+| 2026-06-08 | Industry Primer에는 security-baseline을 기본 적용하되 최소 안전선으로 좁혀 둔다 | 웹자료, 외부 파일, Source Pack 자료, 비공개 대화/checkpoint를 다룰 수 있으므로 보안 기본선은 필요하지만 보안 운영 매뉴얼로 확장하지 않기 위함 |
+| 2026-06-08 | Industry Primer 첫 pilot에서 candidate-ledger는 optional/lightweight로 둔다 | 반복 schema/source/status 후보가 검증되기 전부터 후보 원장을 무겁게 쓰면 하네스보다 운영 체계가 먼저 커질 수 있기 때문 |
+| 2026-06-08 | Phase 7-B 첫 pilot 대상은 APP / adtech / mobile advertising으로 둔다 | 사용자가 Unity와 AppLovin을 잘 알고 있고, APP은 Source Pack 일부 자료가 있어 Industry Primer의 실제 입력 부족 대응까지 검증할 수 있기 때문 |
+| 2026-06-08 | APP Source Pack은 `Conditional Proceed` 입력으로 다룬다 | 현재 APP 자료는 partial collection이므로 full Source Pack 보강을 선행하지 않고, pilot plan의 Input Readiness Preflight에서 부족분을 웹검색, 외부자료, 확인 필요로 처리하기 위함 |
+| 2026-06-08 | Industry Primer pilot plan은 v0 논의판으로 시작하고 최종 합의 후 v1을 새로 만든다 | 질문과 꼬리 질문이 많아 한 번에 최종 note를 작성하면 누락 위험이 크므로 질문별 답변과 합의를 누적하기 위함 |
+| 2026-06-08 | Industry Primer 첫 slice 범위는 Section 1, 3, 5, 13으로 한다 | 첫 slice는 완성형 산업 분석이 아니라 산업 경계, 참여자 지도, glossary/type-schema, handoff QA가 작동하는지 확인하는 메커니즘 검증이기 때문. Section 4 하위 시장 구분은 Section 3에서 간략한 컨텍스트로만 다루고 full pilot에서 검증 |
+| 2026-06-08 | Industry Primer 첫 slice는 APP partial Source Pack을 `Conditional Proceed` 입력으로 사용한다 | 필수 control input은 APP index, 필수 content input은 APP Q1 IR 2건과 FY2026 Q1 8-K / EX-99.1로 둔다. QA/run-summary는 Input Readiness Preflight 참조로 격하하고, 누락 자료의 정확한 status/signal 어휘는 Q5에서 확정한다 |
+| 2026-06-08 | Industry Primer 첫 slice의 웹검색/외부자료는 산업 구조, 용어, 참여자, 플랫폼 정책 이해로 제한한다 | ATT/SKAN/IDFA/Privacy Sandbox는 adtech 구조 이해에 필수이므로 허용하되, 정밀 TAM/CAGR/점유율, 경쟁우위, moat, valuation, 투자 판단은 Market Share/full pilot 또는 이후 단계로 넘긴다 |
+| 2026-06-08 | Industry Primer 첫 slice의 source_register는 slice output 내부 섹션으로 둔다 | 첫 slice는 작고 사람이 읽는 흐름이 중요하므로 별도 artifact를 만들지 않는다. full pilot에서 source 수가 많아지거나 기계 재사용 필요성이 생기면 별도 artifact 후보로 기록한다 |
+| 2026-06-08 | Industry Primer 첫 slice의 필수 산출물은 slice output, QA result, pilot observation note 3개로 둔다 | 본문, 검증, 템플릿 평가를 분리하기 위함. source_register는 slice output 내부 필수 섹션, signal list는 QA 또는 observation note 내부 선택 섹션으로 둔다 |
+| 2026-06-08 | Industry Primer 첫 slice module 적용은 tier 방식으로 둔다 | 필수 적용은 design-preflight, approval-gate, qa-scaffold, signal-routing, pilot-first/testing. security-baseline은 기본, type-schema는 좁게, observability/docs-organization은 가볍게, comparison/checkpoint는 조건부, candidate-ledger는 관찰만 적용. 이 결정으로 Q8/Q9/Q10도 함께 닫는다 |
+| 2026-06-08 | Industry Primer 첫 slice QA 완료 판정은 `pass`, `pass with adjustments`, `blocked` 3단계와 5층 QA 집계 규칙으로 둔다 | 완벽한 산출물 여부가 아니라 후속 단계로 안전하게 넘길 수 있는지를 기준으로 판단한다. 구조, 출처, 범위, 판단, handoff 중 하나라도 `blocked`이면 전체 `blocked`, blocked 없이 하나라도 adjustments이면 전체 `pass with adjustments`로 둔다 |
+| 2026-06-08 | Industry Primer 첫 slice Source Pack top-up은 기본값이 아니라 예외로 둔다 | 현재 APP partial Source Pack으로 계속 진행, top-up 후보 기록, 실제 top-up 승인 요청 3단계로 구분한다. scope 확장은 top-up trigger가 아니라 approval-gate 사안이며, 범위 확장 승인 후 source 충분성 재평가에서 blocking gap이 발견될 때만 top-up 요청으로 이어진다 |
+| 2026-06-08 | Industry Primer pilot plan note v1 전환 기준은 실행자가 v1만 읽고 APP/adtech first slice pilot을 수행할 수 있는지로 둔다 | v1은 논의 기록이 아니라 실행 계획서로 작성한다. Q1~Q12 합의 누락 여부와 v0 합의에 없는 새 조건, 기준, 예외, 필수 산출물 추가 여부를 Claude Code 교차검증 기준에 포함한다 |
+| 2026-06-08 | `global-harness-v5-phase7b-industry-primer-pilot-plan-note-v1-2026-06-08.md`를 새 실행 계획서로 작성한다 | v0 질문 보드와 논의 흔적을 제거하고 APP/adtech first slice pilot 실행에 필요한 목적, 전제, 범위, 입력, 산출물, module 적용, QA, top-up, 실행 순서만 남기기 위함 |
+| 2026-06-08 | Industry Primer blueprint prep note를 blueprint 작성 전 기준 문서로 둔다 | blueprint 착수 전 논의한 기준 문서 세트, 판단형 QA/rubric, QA output format, output schema, Section 13 handoff schema 합의를 보존하기 위함 |
+| 2026-06-08 | Section 13 handoff schema v0는 `question`, `source_ref`, `status`를 필수로 두고 `target_step`, `why_it_matters`는 제외한다 | 다음 하네스와의 과결합을 막으면서도 handoff 질문의 구체성과 근거, source gap 상태를 추적하기 위함 |
+| 2026-06-08 | Industry Primer blueprint는 rubric, QA output format, output schema를 함께 설계해야 한다 | Industry Primer QA는 판단형 QA이므로 rubric만 있고 QA 결과 형식이나 부분 구조화 기준이 없으면 실행자마다 산출물이 drift될 수 있기 때문 |
+| 2026-06-09 | Industry Primer blueprint-prep Section 11의 6개 질문 합의를 별도 consensus note로 고정한다 | blueprint 작성 전에 하네스 구조, 판단형 rubric, QA output format, 부분 schema, Section 13 handoff schema, module tier 연결 합의를 기억 의존이 아니라 문서 기준으로 보존하기 위함 |
+| 2026-06-09 | `industry-primer-qa.schema.md`는 별도 후보 파일로 둔다 | Industry Primer QA는 판단형 QA라서 procedure(실행 순서), rubric(판단 기준), schema(`qa.md` 기록 형식)를 분리해야 drift를 줄일 수 있기 때문 |
+| 2026-06-09 | `industry-primer-slice.md`는 runbook에서 분리된 slice 작성 절차 후보로 둔다 | runbook은 전체 실행 흐름을 관리하고, slice procedure는 Section 1/3/5/13 작성 규칙과 Source Pack/웹 source 사용 방식을 담당하기 때문 |
+| 2026-06-09 | Industry Primer first slice rubric calibration note를 blueprint 작성 전 기준 문서로 둔다 | Section 1/3/5/13의 실제 내용 기준을 먼저 고정해야 판단형 rubric이 구조만 있고 내용이 비는 문제를 막을 수 있기 때문 |
+| 2026-06-09 | full Industry Primer rubric/QA expansion은 first slice pilot 완료 후, full pilot 진입 전에 수행한다 | first slice rubric은 메커니즘 검증용 기준이므로 14개 섹션 전체의 깊은 QA 기준을 대체하지 않기 때문 |
+| 2026-06-09 | Industry Primer blueprint v0를 실제 하네스 파일 생성 전 설계도로 작성한다 | 사용자 승인 전 `harness/`, `.agents/`, `.claude/`, `artifacts/` 파일을 만들지 않고 contract, procedure, schema, rubric, output, adapter 경계와 module 연결만 먼저 검증하기 위함 |
+| 2026-06-10 | Industry Primer blueprint v0의 기준 문서 우선순위는 숫자 표를 유지하되 주제별 override를 둔다 | 기본 실행 범위/입력/산출물은 pilot plan note v1, build 직전 risk control은 pre-build risk review note, 작업 상태는 work-map을 따르게 해 우선순위 역전과 자기참조를 피하기 위함 |
+| 2026-06-10 | Industry Primer Section 3 rubric에 허용/회색지대/금지 구분과 first slice pilot용 gray-zone threshold를 추가한다 | adtech 구조 설명은 경쟁우위 결론으로 기울기 쉬우므로 descriptive 구조 설명, 회색 지대, 금지 영역 결론을 분리해 QA drift를 줄이기 위함 |
+| 2026-06-10 | User Review Required Claims와 Additional Gray-Zone Claims를 구분한다 | 사용자가 직접 검토할 상위 5개 claim과 5개에는 못 들었지만 회색 지대로 남길 claim을 분리하고, 두 목록 모두 exhaustive guarantee가 아님을 명시하기 위함 |
+| 2026-06-10 | source quality tier는 v0에서 source_register 필드로 추가하지 않고 추적 위치를 분리한다 | Industry Primer 내부 필드화 여부는 pilot observation에서, 판단형 하네스 전역 적용 여부는 Phase 7-C에서 판단하기 위함 |
+| 2026-06-11 | Industry Primer first slice 하네스는 S03 내부가 아니라 `P2-S04-Industry-Primer` 독립 하네스로 이전한다 | Source Pack 수집형 하네스와 Industry Primer 판단형/분석형 하네스를 같은 `harness/`, adapter, `artifacts/` 아래 섞으면 orchestration과 라우팅 경계가 흐려지기 때문 |
+| 2026-06-11 | S03 work-map은 S04 migration 시점의 handoff/freeze 상태로 남기고, Phase 7-B 남은 build/pilot 작업은 S04 work-map에서 추적한다 | S03은 Source Pack 하네스와 Global Harness v5 설계 스냅샷으로 보존하고, 실제 Industry Primer 실행 하네스의 active 작업장은 S04로 분리하기 위함 |
 
 ## 8. 열려 있는 질문
 
@@ -412,7 +601,7 @@ remaining module location 판정 기준:
 |---|---|---|
 | v5 core 초안을 별도 파일로 만들까, 기존 core v0를 갱신할까? | 결정됨 | `global-harness-core-structure-template-v1.md` 새 파일 생성 |
 | module registry의 경로 표기 방식을 어떻게 고정할까? | 결정됨 | v1 registry는 파일명만 쓰고 기준 폴더를 `docs/templates/global-harness-candidates/`로 명시 |
-| `AGENTS.md` / `CLAUDE.md` drift 검사는 수동 체크리스트로 충분한가? | 미정 | v5 core 초안 후 재검토 |
+| `AGENTS.md` / `CLAUDE.md` drift 검사는 수동 체크리스트로 충분한가? | 미정 | Phase 7-C packaging/drift policy에서 재검토 |
 | pilot-first는 candidate-ledger에 묶을까, 별도 testing module로 둘까? | 결정됨 | 별도 module v0 파일을 만들지 않고 `candidate-ledger`와 Phase 7 pilot validation에 묶어 처리 |
 | `design-preflight`를 별도 module v0로 분리할까? | 결정됨 | `global-harness-design-preflight-template-v0.md` 생성 |
 | `comparison mode`를 별도 module로 둘까, `qa-scaffold`에 포함할까? | 결정됨 | 별도 파일 없이 v1 registry에 등재하고 `design-preflight`, `qa-scaffold`, `approval-gate`, `observability`에 연결 |
@@ -425,9 +614,28 @@ remaining module location 판정 기준:
 | docs-organization v1 후보 파일을 만들까? | 결정됨 | `global-harness-docs-organization-template-v1.md` 후보 파일 생성 |
 | candidate-ledger v1 후보 파일을 만들까? | 결정됨 | `global-harness-candidate-ledger-template-v1.md` 후보 파일 생성 |
 | v1 module registry 정렬 원칙은 개념 흐름 기준으로 할까, 파일 유무 기준으로 할까? | 결정됨 | 개념 흐름 기준으로 정렬하고 no-file 항목은 연결 module 바로 뒤에 배치 |
-| v1 core Section 12의 후보 폴더 기준 경로 문구를 전역 배포 시 어떻게 바꿀까? | 미정 | Phase 7 packaging/전역화 판단에서 template bundle 기준 문구로 변경할지 결정 |
-| docs 정리, 보안, QA, observability의 알림/경고를 공통 signal-routing module로 분리할까? | 미정 | Phase 7 pilot/전역화 판단에서 반복 신호, severity, 사용자 알림 채널, adapter 경계를 검토 |
+| v1 core Section 12의 후보 폴더 기준 경로 문구를 전역 배포 시 어떻게 바꿀까? | 미정 | Phase 7-C packaging note에서 template bundle 기준 문구로 변경할지 결정 |
+| docs 정리, 보안, QA, observability의 알림/경고를 공통 signal-routing module로 분리할까? | 결정됨 | Phase 7-0에서 signal-routing scope note와 v0 후보 파일 작성 |
+| signal-routing을 v1 core registry에 언제 올릴까? | 결정됨 | v0 Claude Code 교차검증 PASS 후 `comparison` 뒤, `observability` 앞에 등재 |
+| signal-routing severity 어휘는 무엇으로 확정할까? | 결정됨 | v0는 `critical`, `action_required`, `maintenance`, `info` 4단계로 시작하고 `candidate`/`improvement`는 route/record 성격으로 처리 |
+| 전역 template bundle의 최종 canonical source는 어디인가? | 미정 | Phase 7-C 또는 21단계 상위 하네스 설계 시 결정 |
+| Phase 7-A 결과가 `pass with adjustments`이면 B 전에 어디까지 수정할까? | 결정됨 | Phase 7-A 최종 판정은 `pass`. B 전 blocking 수정 없음 |
+| Source Pack 사례를 전역 bundle에 어느 정도 reference로 남길까? | 미정 | Phase 7-C packaging note에서 reference/example 범위 결정 |
 | Source Pack 사례를 v5 core 본문에 넣을까, reference로만 둘까? | 결정됨 | v1 본문에는 길게 넣지 않고 기반 문서와 reference/example로만 처리 |
+| Industry Primer pilot 대상 회사/산업은 APP/adtech로 확정할까? | 결정됨 | APP / adtech / mobile advertising을 첫 pilot 대상으로 둔다 |
+| APP Source Pack이 partial인데 먼저 보강해야 할까? | 결정됨 | full 보강을 선행하지 않고 `Conditional Proceed`로 pilot plan에 반영 |
+| Industry Primer 첫 slice 범위는 어디까지로 할까? | 결정됨 | 첫 slice는 Section 1, 3, 5, 13으로 제한한다. Section 2/4/6~12/14는 full pilot에서 검증하되, Section 4 하위 시장 맥락은 Section 3에서 간략히 다룬다 |
+| Industry Primer 첫 slice에서 Source Pack 입력 범위는 어디까지인가? | 결정됨 | APP index를 control input으로, APP Q1 IR 2건과 FY2026 Q1 8-K / EX-99.1을 content input으로 사용한다. QA/run-summary는 preflight 참조로만 사용 |
+| Industry Primer 첫 slice에서 웹검색/외부자료 범위는 어디까지인가? | 결정됨 | 구조/용어/참여자/platform policy는 허용, 시장 규모는 맥락적 규모만 허용, 정밀 수치·경쟁우위·valuation 판단은 제외 |
+| Industry Primer 첫 slice에서 source_register는 어디에 둘까? | 결정됨 | slice output 내부 필수 섹션으로 둔다. 별도 artifact는 full pilot 후보로만 기록 |
+| Industry Primer 첫 slice의 필수 산출물은 무엇인가? | 결정됨 | Industry Primer slice output, Slice QA result, Pilot observation note 3개로 둔다 |
+| Industry Primer 첫 slice에서 어떤 module을 실제로 적용할까? | 결정됨 | tier 방식으로 적용한다. comparison/checkpoint는 조건부, candidate-ledger는 별도 파일 없이 observation note에 후보만 기록 |
+| Industry Primer 첫 slice QA pass / pass with adjustments / blocked 기준은 무엇인가? | 결정됨 | 5층 QA 기준으로 판정한다. 금지 영역은 Value Chain, Business Model, Market Share, Competition, Moat, Valuation, 투자 판단으로 정의하고, comparison은 판정이 애매할 때 조건부로 발동한다 |
+| Industry Primer 첫 slice에서 comparison mode를 사용할까? | 결정됨 | 첫 slice 기본 실행에서는 비활성화하고 결과가 애매하거나 교차검증이 필요할 때만 조건부 사용 |
+| Industry Primer 첫 slice에서 candidate-ledger를 켤까? | 결정됨 | 별도 ledger 파일 없이 Pilot observation note Section B에 후보만 기록 |
+| Industry Primer 첫 slice에서 checkpoint를 언제 사용할까? | 결정됨 | 세션 전환, 컨텍스트 압축 위험, 사용자 저장 요청 시에만 사용 |
+| Industry Primer APP Source Pack top-up trigger는 충분한가? | 결정됨 | Source Pack top-up은 기본값이 아니라 예외로 둔다. 현재 APP partial Source Pack으로 진행 / top-up 후보 기록 / 실제 top-up 승인 요청 3단계로 구분 |
+| Industry Primer pilot plan v1 전환 조건은 무엇인가? | 결정됨 | 실행자가 v1만 읽고 APP/adtech first slice pilot을 수행할 수 있으면 v1로 전환한다. v1에는 실행 계획만 담고, v0 질문 보드/논의 흔적/진행 메타 문구는 옮기지 않는다 |
 | 후보 폴더 README를 언제 갱신할까? | 결정됨 | `README.md` 갱신 완료 |
 
 ## 9. 작업 시 업데이트 규칙
@@ -445,5 +653,7 @@ remaining module location 판정 기준:
 
 다음 작업을 시작할 때는 아래 순서로 들어간다.
 
-1. Phase 7 진입 전에 사용자 확인 질문을 먼저 논의한다.
-2. 사용자 확인이 끝나면 Phase 7 pilot 검증과 전역화 판단 논의로 넘어간다.
+1. S03에서 Phase 7-B Industry Primer build/pilot 작업을 더 진행하지 않는다.
+2. 사용자가 `C:\Users\frisa\Documents\Investment-Research-OS\P2-S04-Industry-Primer` 폴더 생성과 독립 `git init` Gate를 직접 수행한다.
+3. 이후 `global-harness-v5-phase7b-s04-migration-plan-2026-06-11.md`에 따라 S04 파일 복사, S04 bootstrap, S04 Industry Primer 하네스 파일 생성을 S04 work-map에서 추적한다.
+4. S03의 `harness/`, `.agents/`, `.claude/`, `artifacts/`는 Source Pack 전용으로 유지한다.

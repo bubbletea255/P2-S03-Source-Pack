@@ -337,6 +337,7 @@ module 세부 규칙을 v5 core 본문에 복사하지 않는다.
 | approval-gate | `global-harness-approval-gate-template-v1.md` | 논의/검토와 실제 수정/실행 승인 경계를 상세화할 때 |
 | qa-scaffold | `global-harness-qa-scaffold-template-v1.md` | QA 항목 범주, 상태값, 결과 파일 skeleton, repair/recheck, escalation 기록 기준이 필요할 때 |
 | comparison | 별도 파일 없음. `design-preflight`(필요 여부), `qa-scaffold`(공통 rubric), `approval-gate`(운영 반영 승인), `observability`(비교 결과 기록) 연결 | 두 모델 실행 결과를 같은 기준으로 비교하고 운영 반영 여부를 판단할 때 |
+| signal-routing | `global-harness-signal-routing-template-v0.md` | 여러 module의 알림, 경고, escalation을 공통 signal envelope와 routing 기준으로 표현해야 할 때 |
 | observability | `global-harness-observability-template-v1.md` | run-summary에 운영 관찰 필드, 병목, trim 후보를 남길 때 |
 | candidate-ledger | `global-harness-candidate-ledger-template-v1.md` | 새 분류, 상태값, source, schema 값, 예외를 바로 정식화하지 않고 후보 record/evidence로 추적할 때 |
 | pilot-first / testing | 별도 파일 없음. `candidate-ledger`와 Phase 7 pilot validation에서 처리 | 새 source, 새 자동화, 새 schema 변경을 운영 반영 전에 후보로 기록하고 작게 검증할 때 |

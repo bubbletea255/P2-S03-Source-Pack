@@ -480,12 +480,45 @@ Source Pack은 수집형 하네스다.
 | B pilot 계획 초안 | 조건부 가능 | A 결과에 따라 수정될 수 있음을 명시해야 한다. |
 | B 실제 실행 | A 완료 후 권장 | A에서 발견된 명백한 수정 후보를 반영한 뒤 실행하는 편이 안전하다. |
 
-아직 열린 질문:
+합의된 결론:
 
 ```text
-Phase 7-B 계획 수립을 A와 병렬로 진행할 것인가,
-아니면 A 결과를 본 뒤 순차적으로 진행할 것인가?
+Phase 7-B 계획 수립은 Phase 7-A와 병렬로 진행할 수 있다.
+다만 Phase 7-B 실제 실행은 Phase 7-A 완료 후 진행한다.
 ```
+
+병렬로 진행할 수 있는 작업은 Industry Primer pilot plan 초안, 하네스 유형 정리, 사용할 module 후보 선정, 입력/출력 산출물 후보 정리다.
+
+실제 Industry Primer 하네스 파일 생성, v5 template 적용 결과 판정, 전역화 판단은 Phase 7-A에서 명백한 수정 후보를 확인한 뒤 진행한다.
+
+### 8.5 Phase 7-A 소급 검증 범위
+
+Phase 7-A는 Source Pack 전체를 대상으로 하되, 실제 검토는 대표 사건과 핵심 폴더 중심으로 진행한다.
+
+전체 대상으로 보는 영역:
+
+- `harness/` 구조
+- `docs/templates/global-harness-candidates/`
+- `artifacts/runs/`
+- `artifacts/catalog/`
+- `artifacts/companies/`
+- `.agents` / `.claude` adapter 구조
+- README / MANIFEST / runbook 계열
+
+대표 사건 중심으로 보는 항목:
+
+- Source Pack이 예상보다 무거워진 사건
+- `Earnings Call`을 Source Pack에서 분리하는 판단
+- v4 단일 template에서 v5 core + modules 구조로 분리한 사건
+- security 알림 필요성이 드러난 사건
+- docs-organization 알림 필요성이 드러난 사건
+- candidate-ledger / pilot-first 필요성이 드러난 사건
+- Claude Code / Codex 교차검증 workflow
+- IR taxonomy overlap 충돌 사건: `sec_equivalent_not_found_in_scoped_8k`, `security_quarantined` 처리 과정
+
+IR taxonomy overlap 충돌 사건은 candidate-ledger, security-baseline, signal-routing, type-schema, approval-gate가 실제 현장에서 어떻게 연결됐어야 하는지 검증하는 데 유용하다.
+
+Phase 7-A는 exhaustive audit이 아니라 소급 검증이다. 따라서 전체 구조를 놓치지 않되, 실제 판단은 대표 사건과 핵심 폴더를 중심으로 수행한다.
 
 ## 9. Phase 7-C 전역 배포 판단
 
@@ -522,7 +555,6 @@ Phase 7-B의 다음 하네스와 유형은 Section 8.2에서 `Industry Primer`, 
 
 | 질문 | 왜 중요한가 | 권장 처리 |
 |---|---|---|
-| Phase 7-A와 B는 순차인가, B 계획은 병렬 가능한가? | 일정과 작업 지도 구조가 달라진다. | 기본은 A 먼저, B 계획은 조건부 병렬 가능 |
 | signal-routing을 v1 core registry에 언제 올릴 것인가? | 새 module 발견 가능성과 과잉 registry 노출 사이 균형이 필요하다. | v0 작성 후 registry 반영 여부 결정 |
 | signal-routing severity 어휘는 무엇으로 확정할 것인가? | 모든 module의 알림 강도 해석에 영향을 준다. | Phase 7-0 scope note에서 확정 |
 | 전역 template bundle의 최종 canonical source는 어디인가? | Codex/Claude 전역 drift 관리에 영향을 준다. | Phase 7-C 또는 21단계 상위 하네스 설계 시 결정 |
@@ -612,13 +644,15 @@ Phase 7-C. 전역 배포 판단
 | `Earnings Call`과 Industry Primer 관계 | Industry Primer의 blocking dependency가 아니다. |
 | `Earnings Call` 계약 정리 시점 | Step 6 `Business Model` 또는 이후 Financial Quality/Monitoring 계열 하네스 전까지 산출물 계약을 정리한다. |
 
-남은 사용자 결정 질문은 아래 3개다.
+질문 3~5도 사용자, Codex, Claude Code 논의를 거쳐 아래처럼 답변 완료 상태로 둔다.
 
-| 우선순위 | 질문 | 필요한 이유 |
+| 우선순위 | 질문 | 현재 답변 |
 |---|---|---|
-| 3 | B 계획 수립을 A와 병렬로 할까, A 완료 후 할까? | Phase 7 일정 구조 결정 |
-| 4 | signal-routing은 Phase 7-0에서 v0까지 만들까, scope note만 먼저 만들까? | Phase 7-A 검증 기준 결정 |
-| 5 | Phase 7-A에서 Source Pack 전체를 볼까, 대표 사건/폴더만 볼까? | 소급 검증 범위 결정 |
+| 3 | B 계획 수립을 A와 병렬로 할까, A 완료 후 할까? | B 계획 수립은 A와 병렬로 진행할 수 있다. B 실제 실행은 A 완료 후 한다. |
+| 4 | signal-routing은 Phase 7-0에서 v0까지 만들까, scope note만 먼저 만들까? | Phase 7-0에서 scope note와 v0까지 작성한다. 단, v0는 severity/routing/user-visible 원칙 중심으로 작게 유지한다. |
+| 5 | Phase 7-A에서 Source Pack 전체를 볼까, 대표 사건/폴더만 볼까? | Source Pack 전체를 대상으로 하되, 실제 검토는 대표 사건과 핵심 폴더 중심으로 한다. |
+
+Q5의 대표 사건에는 IR taxonomy overlap 충돌 사건(`sec_equivalent_not_found_in_scoped_8k`, `security_quarantined`)을 반드시 포함한다.
 
 아래는 새로 결정할 질문이 아니라, 이미 합의된 원칙을 Phase 7 시작 전에 다시 확인할 항목이다.
 
@@ -648,4 +682,5 @@ Phase 7-C. 전역 배포 판단
 7. 최종 consensus note를 기준으로 작업 지도를 갱신한다.
 8. Phase 7-0부터 실행한다.
 
-현재 이 문서는 Claude Code 교차검증 PASS를 받은 상태이며, 사용자 결정 요청 목록 응답을 기다린다.
+현재 이 문서는 Claude Code 교차검증 PASS 상태이며, 사용자 결정 Q1~Q5 완료 상태다.
+다음 단계는 이 문서를 기준으로 작업 지도를 업데이트한 뒤 Phase 7-0을 실행하는 것이다.

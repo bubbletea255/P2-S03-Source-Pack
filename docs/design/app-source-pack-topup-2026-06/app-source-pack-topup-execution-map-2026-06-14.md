@@ -2,7 +2,7 @@
 
 작성일: 2026-06-14  
 대상: APP / AppLovin Corporation  
-상태: 실행 지도 생성 및 설계 메모 보강 완료, checkpoint/commit 및 SEC/sector item_id preflight 대기  
+상태: Phase 0 완료, Phase 1 APP SEC/sector top-up 대기  
 관련 설계 메모: `docs/design/app-source-pack-topup-2026-06/source-pack-company-official-and-app-topup-work-map-2026-06-13.md`  
 관련 요청서: `docs/handoff/s03-app-source-pack-topup-request-2026-06-13.md`
 
@@ -24,7 +24,7 @@
 
 | Phase | 이름 | 상태 | 핵심 산출물 |
 |---:|---|---|---|
-| 0 | 합의 보존과 실행 지도 | in_progress | 이 실행 지도, 설계 메모 보강, checkpoint/commit |
+| 0 | 합의 보존과 실행 지도 | done | 이 실행 지도, 설계 메모 보강, checkpoint/commit, SEC/sector item_id preflight |
 | 1 | APP SEC 10-K/10-Q + sector top-up | pending | APP SEC raw/catalog/index/run-summary/QA |
 | 2 | `company-official` 최소 반영 계획 | pending | 최소 구현 계획 문서 |
 | 3 | `company-official` 최소 harness 반영 | pending | schema/collector/QA 최소 수정 |
@@ -59,7 +59,7 @@
 
 ## 3. Phase 0: 합의 보존과 실행 지도
 
-상태: in_progress
+상태: done
 
 목표:
 
@@ -77,8 +77,8 @@
 |---|---|---|
 | 실행 지도 생성 | done | 이 문서 생성 |
 | 설계 메모 보강 | done | Phase B pilot-first 최소 4항목, 전용 필드, item_id 후행 주입, Phase 체계 관계 명시 |
-| checkpoint/commit | pending | 사용자 승인 후 설계 문서와 README 변경을 git checkpoint로 보존 |
-| SEC/sector item_id preflight | pending | Phase 1 실행 전 handoff의 latest 10-K, latest 10-Q, sector/entity metadata 항목에 `item_id` 부여 |
+| checkpoint/commit | done | 설계 문서와 README 변경을 git checkpoint로 보존 |
+| SEC/sector item_id preflight | done | Phase 1 실행 전 handoff의 latest 10-K, latest 10-Q, sector/entity metadata 항목에 `item_id` 부여 |
 
 완료 조건:
 
@@ -86,11 +86,11 @@
 - `docs/README.md`가 이 실행 지도를 가리킨다.
 - 설계 메모에 Phase B 최소 범위가 반영된다.
 - Phase 1 실행 전에 SEC/sector Required item에 `item_id`가 부여된다.
-- 사용자가 원하면 git checkpoint 또는 commit이 만들어진다.
+- git checkpoint 또는 commit이 만들어진다.
 
 사람 승인 필요:
 
-- git staging/commit
+- Phase 1 외부 SEC 접근 및 운영 catalog/index 반영 승인
 
 ---
 
@@ -376,7 +376,5 @@ APP top-up에서 배운 내용을 다음 회사와 다음 APP 업데이트에 �
 
 현재 기준 다음 행동은 아래 순서다.
 
-1. 사용자 승인 후 설계 문서/실행 지도/README 변경을 checkpoint 또는 commit으로 보존한다.
-2. Phase 1 실행 전에 APP handoff의 latest 10-K, latest 10-Q, sector/entity metadata 항목에 `item_id`를 부여한다.
-3. Phase 1 APP SEC top-up을 `partial_recheck`로 실행한다.
-4. run-summary와 QA를 SEC/sector `item_id`와 대조하고, S04 진행에 blocking issue가 있는지 판단한다.
+1. Phase 1 APP SEC top-up을 `partial_recheck`로 실행한다.
+2. run-summary와 QA를 SEC/sector `item_id`와 대조하고, S04 진행에 blocking issue가 있는지 판단한다.

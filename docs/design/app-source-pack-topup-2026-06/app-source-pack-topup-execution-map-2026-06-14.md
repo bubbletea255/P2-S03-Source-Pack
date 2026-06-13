@@ -2,7 +2,7 @@
 
 작성일: 2026-06-14  
 대상: APP / AppLovin Corporation  
-상태: Phase 2 company-official 최소 반영 계획 완료, Phase 3 최소 harness 수정안 제시 대기  
+상태: Phase 3 최소 harness 수정안 최종 보강 완료, 검토 대기  
 관련 설계 메모: `docs/design/app-source-pack-topup-2026-06/source-pack-company-official-and-app-topup-work-map-2026-06-13.md`  
 관련 요청서: `docs/handoff/s03-app-source-pack-topup-request-2026-06-13.md`
 
@@ -27,7 +27,7 @@
 | 0 | 합의 보존과 실행 지도 | done | 이 실행 지도, 설계 메모 보강, checkpoint/commit, SEC/sector item_id preflight |
 | 1 | APP SEC 10-K/10-Q + sector top-up | done | APP SEC raw/catalog/index/run-summary/QA |
 | 2 | `company-official` 최소 반영 계획 | done | 최소 구현 계획 문서 |
-| 3 | `company-official` 최소 harness 반영 | pending | schema/collector/QA 최소 수정안, 승인 후 운영 규칙 반영 |
+| 3 | `company-official` 최소 harness 반영 | in_progress | schema/collector/QA 최소 수정안 최종 보강 완료, 승인 후 운영 규칙 반영 |
 | 4 | APP product official pages `item_id`/page_key 보강 | pending | product official pages가 세분화된 APP 요청서 |
 | 5 | APP product official pages pilot | pending | company-official snapshot pilot raw/catalog/run-summary/QA |
 | 6 | S04 intake readiness 확인 | pending | S04가 읽을 입력 지도와 미해결 항목 |
@@ -208,6 +208,10 @@ APP product official pages pilot이 즉흥 처리되지 않도록 최소 운영 
 - Phase 3의 첫 산출물은 실제 `harness/` 편집이 아니라 수정안 제시다.
 - 사용자가 수정안을 검토하고 승인하기 전에는 `harness/` 운영 규칙을 수정하지 않는다.
 
+수정안 산출물:
+
+- `docs/design/app-source-pack-topup-2026-06/company-official-phase3-harness-change-proposal-2026-06-14.md`
+
 예상 수정 후보:
 
 | 파일 | 역할 | 우선순위 |
@@ -229,6 +233,8 @@ APP product official pages pilot이 즉흥 처리되지 않도록 최소 운영 
 - company-official 수집 전 필요한 경로와 필드가 명시된다.
 - broad crawl, 로그인/유료벽/봇 우회, URL fuzzy matching 금지가 명시된다.
 - APP pilot 범위의 page_key/canonical_url 충돌, URL 이전 보류, 같은 날 raw path 충돌 처리 원칙이 수정안에 포함된다.
+- captured_at이 이번 run의 실제 캡처 순간이라는 점, page_key만으로 skipped_existing 처리 금지, 동일 document_id 멱등 재실행 가드 원칙이 수정안에 포함된다.
+- metadata.json raw-only 원칙과 captured_at/retrieved_at 근접성 QA 조건이 수정안에 포함된다.
 
 사람 승인 필요:
 
@@ -385,6 +391,6 @@ APP top-up에서 배운 내용을 다음 회사와 다음 APP 업데이트에 �
 
 현재 기준 다음 행동은 아래 순서다.
 
-1. Phase 3 `company-official` 최소 harness 반영을 위한 수정안 제시 여부를 사용자에게 확인한다.
-2. 승인되면 catalog schema, collector, no-inference rule, QA 최소 규칙에 대한 수정안을 먼저 제시한다.
+1. Phase 3 수정안을 사용자와 교차 검토한다.
+2. 승인되면 catalog schema, collector, runbook, QA 최소 규칙을 실제 `harness/`에 반영한다.
 3. 사용자가 수정안을 검토하고 별도 승인하기 전에는 `harness/` 운영 규칙을 수정하지 않는다.

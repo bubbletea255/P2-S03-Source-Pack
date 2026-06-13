@@ -2,7 +2,7 @@
 
 작성일: 2026-06-14  
 대상: APP / AppLovin Corporation  
-상태: Phase 0 완료, Phase 1 APP SEC/sector top-up 대기  
+상태: Phase 1 APP SEC/sector top-up 완료, Phase 2 company-official 최소 반영 계획 대기  
 관련 설계 메모: `docs/design/app-source-pack-topup-2026-06/source-pack-company-official-and-app-topup-work-map-2026-06-13.md`  
 관련 요청서: `docs/handoff/s03-app-source-pack-topup-request-2026-06-13.md`
 
@@ -25,7 +25,7 @@
 | Phase | 이름 | 상태 | 핵심 산출물 |
 |---:|---|---|---|
 | 0 | 합의 보존과 실행 지도 | done | 이 실행 지도, 설계 메모 보강, checkpoint/commit, SEC/sector item_id preflight |
-| 1 | APP SEC 10-K/10-Q + sector top-up | pending | APP SEC raw/catalog/index/run-summary/QA |
+| 1 | APP SEC 10-K/10-Q + sector top-up | done | APP SEC raw/catalog/index/run-summary/QA |
 | 2 | `company-official` 최소 반영 계획 | pending | 최소 구현 계획 문서 |
 | 3 | `company-official` 최소 harness 반영 | pending | schema/collector/QA 최소 수정 |
 | 4 | APP product official pages `item_id`/page_key 보강 | pending | product official pages가 세분화된 APP 요청서 |
@@ -96,7 +96,7 @@
 
 ## 4. Phase 1: APP SEC 10-K/10-Q + sector top-up
 
-상태: pending
+상태: done
 
 목표:
 
@@ -126,14 +126,14 @@ run_scope: APP S04 SEC top-up only - latest 10-K + latest 10-Q
 
 | 작업 | 상태 | 설명 |
 |---|---|---|
-| SEC/sector item_id 확인 | pending | latest 10-K, latest 10-Q, sector/entity metadata 요청 항목의 `item_id` 확인 |
-| SEC submissions metadata 확인 | pending | APP CIK, SIC/sector, fiscal year end 확인 |
-| latest 10-K 식별 | pending | accession number와 filing date 고정 |
-| latest 10-Q 식별 | pending | accession number와 filing date 고정 |
-| raw SEC 파일 저장 | pending | 공식 `artifacts/raw/sec-edgar/...` 구조 사용 |
-| catalog 갱신 | pending | `entities.jsonl`, `documents.jsonl`, `files.jsonl`, `runs.jsonl` 갱신 |
-| APP index 갱신 | pending | 10-K/10-Q와 sector 확인 필요 상태 해소 |
-| run-summary/QA 작성 | pending | SEC/sector `item_id`별 결과와 failed/repair/access_limited 여부 표면화 |
+| SEC/sector item_id 확인 | done | latest 10-K, latest 10-Q, sector/entity metadata 요청 항목의 `item_id` 확인 |
+| SEC submissions metadata 확인 | done | APP CIK, SIC/sector, fiscal year end 확인 |
+| latest 10-K 식별 | done | accession number와 filing date 고정 |
+| latest 10-Q 식별 | done | accession number와 filing date 고정 |
+| raw SEC 파일 저장 | done | 공식 `artifacts/raw/sec-edgar/...` 구조 사용 |
+| catalog 갱신 | done | `entities.jsonl`, `documents.jsonl`, `files.jsonl`, `runs.jsonl` 갱신 |
+| APP index 갱신 | done | 10-K/10-Q와 sector 확인 필요 상태 해소 |
+| run-summary/QA 작성 | done | SEC/sector `item_id`별 결과와 failed/repair/access_limited 여부 표면화 |
 
 완료 조건:
 
@@ -147,8 +147,7 @@ run_scope: APP S04 SEC top-up only - latest 10-K + latest 10-Q
 
 사람 승인 필요:
 
-- 외부 SEC 접근 및 운영 catalog/index 반영 승인
-- run 결과의 blocking issue가 있을 경우 다음 단계 진행 승인
+- Phase 2 `company-official` 최소 반영 계획 착수 승인
 
 ---
 
@@ -376,5 +375,5 @@ APP top-up에서 배운 내용을 다음 회사와 다음 APP 업데이트에 �
 
 현재 기준 다음 행동은 아래 순서다.
 
-1. Phase 1 APP SEC top-up을 `partial_recheck`로 실행한다.
-2. run-summary와 QA를 SEC/sector `item_id`와 대조하고, S04 진행에 blocking issue가 있는지 판단한다.
+1. Phase 2 `company-official` 최소 반영 계획을 작성한다.
+2. Phase 3에서 실제 harness 수정에 들어가기 전 사용자 승인을 받는다.

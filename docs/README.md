@@ -15,7 +15,7 @@
 | 폴더 | 역할 | 대표 파일 |
 |---|---|---|
 | `current/` | 현재 상태 지도와 v1 마감 문서 | `source-pack-ir-current-state-map-2026-06-05.md`, `source-pack-ir-v1-closeout-2026-06-05.md`, `ir-taxonomy-checkpoint-2026-06-05.md` |
-| `design/` | 구조 설계, taxonomy, SEC-IR 중복/무결성, raw 구조 기준 | `ir-collection-design-notes-2026-06-04.md`, `sec-ir-deduplication-and-integrity-design-2026-06-05.md`, `source-pack-structure-decision-notes-2026-06-04.md` |
+| `design/` | 구조 설계, taxonomy, SEC-IR 중복/무결성, raw 구조 기준 | `ir-collection-design-notes-2026-06-04.md`, `sec-ir-deduplication-and-integrity-design-2026-06-05.md`, `source-pack-structure-decision-notes-2026-06-04.md`, `app-source-pack-topup-2026-06/` |
 | `templates/` | 재사용 템플릿과 관측 가능성 템플릿 | `source-pack-observability-template.md`, `공용_하네스_템플릿_체크리스트_v4.md` |
 | `pilots/` | IR preflight와 pilot 사후 메모 | `aapl-ir-preflight-2026-06-04.md`, `ntra-ir-pilot-2-postmortem-2026-06-04.md`, `tem-ir-preflight-2026-06-05.md` |
 | `handoff/` | 특정 시점의 대화/작업 인계 문서 | `source-pack-handoff-2026-06-03.md`, `source-pack-ir-dedup-handoff-2026-06-05.md` |
@@ -29,6 +29,8 @@
 2. `current/source-pack-ir-current-state-map-2026-06-05.md`
 3. 필요한 경우 `design/ir-collection-design-notes-2026-06-04.md`
 4. SEC-IR 중복/무결성을 다룰 때는 `design/sec-ir-deduplication-and-integrity-design-2026-06-05.md`
+5. S04 handoff 기반 APP top-up, `company-official`, 계층2 스냅샷, 하네스 간 요청/이행 규칙을 다룰 때는 `design/app-source-pack-topup-2026-06/source-pack-company-official-and-app-topup-work-map-2026-06-13.md`
+6. APP top-up의 현재 실행 순서와 진행 상태를 이어받을 때는 `design/app-source-pack-topup-2026-06/app-source-pack-topup-execution-map-2026-06-14.md`
 
 ## 정리 원칙
 

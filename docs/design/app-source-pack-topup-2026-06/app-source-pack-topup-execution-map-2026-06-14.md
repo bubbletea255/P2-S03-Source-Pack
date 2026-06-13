@@ -2,7 +2,7 @@
 
 작성일: 2026-06-14  
 대상: APP / AppLovin Corporation  
-상태: Phase 1 APP SEC/sector top-up 완료, Phase 2 company-official 최소 반영 계획 대기  
+상태: Phase 2 company-official 최소 반영 계획 완료, Phase 3 최소 harness 수정안 제시 대기  
 관련 설계 메모: `docs/design/app-source-pack-topup-2026-06/source-pack-company-official-and-app-topup-work-map-2026-06-13.md`  
 관련 요청서: `docs/handoff/s03-app-source-pack-topup-request-2026-06-13.md`
 
@@ -26,8 +26,8 @@
 |---:|---|---|---|
 | 0 | 합의 보존과 실행 지도 | done | 이 실행 지도, 설계 메모 보강, checkpoint/commit, SEC/sector item_id preflight |
 | 1 | APP SEC 10-K/10-Q + sector top-up | done | APP SEC raw/catalog/index/run-summary/QA |
-| 2 | `company-official` 최소 반영 계획 | pending | 최소 구현 계획 문서 |
-| 3 | `company-official` 최소 harness 반영 | pending | schema/collector/QA 최소 수정 |
+| 2 | `company-official` 최소 반영 계획 | done | 최소 구현 계획 문서 |
+| 3 | `company-official` 최소 harness 반영 | pending | schema/collector/QA 최소 수정안, 승인 후 운영 규칙 반영 |
 | 4 | APP product official pages `item_id`/page_key 보강 | pending | product official pages가 세분화된 APP 요청서 |
 | 5 | APP product official pages pilot | pending | company-official snapshot pilot raw/catalog/run-summary/QA |
 | 6 | S04 intake readiness 확인 | pending | S04가 읽을 입력 지도와 미해결 항목 |
@@ -153,7 +153,7 @@ run_scope: APP S04 SEC top-up only - latest 10-K + latest 10-Q
 
 ## 5. Phase 2: `company-official` 최소 반영 계획
 
-상태: pending
+상태: done
 
 목표:
 
@@ -172,6 +172,10 @@ product-level official pages를 수집하기 전에, 최소한의 규칙 변경 
 | no-inference rule | source_type/page_key를 추론으로 확정하지 않고 애매하면 멈춤 |
 | QA 최소 규칙 | `captured_at` 존재, `access_limited` 기록, raw/file 연결 확인 |
 
+산출물:
+
+- `docs/design/app-source-pack-topup-2026-06/company-official-minimum-implementation-plan-2026-06-14.md`
+
 명시적으로 뒤로 미룰 것:
 
 - run-summary schema 정식 item_id 원장
@@ -187,7 +191,7 @@ product-level official pages를 수집하기 전에, 최소한의 규칙 변경 
 
 사람 승인 필요:
 
-- Phase 3 harness 수정 착수 승인
+- Phase 3 harness 수정안 작성 승인
 
 ---
 
@@ -198,6 +202,11 @@ product-level official pages를 수집하기 전에, 최소한의 규칙 변경 
 목표:
 
 APP product official pages pilot이 즉흥 처리되지 않도록 최소 운영 규칙을 `harness/`에 반영한다.
+
+진행 게이트:
+
+- Phase 3의 첫 산출물은 실제 `harness/` 편집이 아니라 수정안 제시다.
+- 사용자가 수정안을 검토하고 승인하기 전에는 `harness/` 운영 규칙을 수정하지 않는다.
 
 예상 수정 후보:
 
@@ -219,10 +228,11 @@ APP product official pages pilot이 즉흥 처리되지 않도록 최소 운영 
 - 기존 SEC/IR catalog record가 새 규칙 때문에 깨지지 않는다.
 - company-official 수집 전 필요한 경로와 필드가 명시된다.
 - broad crawl, 로그인/유료벽/봇 우회, URL fuzzy matching 금지가 명시된다.
+- APP pilot 범위의 page_key/canonical_url 충돌, URL 이전 보류, 같은 날 raw path 충돌 처리 원칙이 수정안에 포함된다.
 
 사람 승인 필요:
 
-- harness 운영 규칙 변경 승인
+- 수정안 검토 후 harness 운영 규칙 변경 승인
 - 변경 후 checkpoint/commit 승인
 
 ---
@@ -375,5 +385,6 @@ APP top-up에서 배운 내용을 다음 회사와 다음 APP 업데이트에 �
 
 현재 기준 다음 행동은 아래 순서다.
 
-1. Phase 2 `company-official` 최소 반영 계획을 작성한다.
-2. Phase 3에서 실제 harness 수정에 들어가기 전 사용자 승인을 받는다.
+1. Phase 3 `company-official` 최소 harness 반영을 위한 수정안 제시 여부를 사용자에게 확인한다.
+2. 승인되면 catalog schema, collector, no-inference rule, QA 최소 규칙에 대한 수정안을 먼저 제시한다.
+3. 사용자가 수정안을 검토하고 별도 승인하기 전에는 `harness/` 운영 규칙을 수정하지 않는다.
